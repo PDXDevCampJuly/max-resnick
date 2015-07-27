@@ -19,6 +19,6 @@ lib = input("What's the name of the boat? ")
 fullstory += lib + "to a Coast Guard search team that has covered about "
 howfar = str(len(lib) * 20000)
 
-fullstory += howfar + "square nautical miles — by air and sea — in the hunt for Austin Stephanos and Perry Cohen."
+fullstory += howfar + " square nautical miles — by air and sea — in the hunt for Austin Stephanos and Perry Cohen."
 
 print(fullstory)
