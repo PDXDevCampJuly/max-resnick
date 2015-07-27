@@ -24,7 +24,7 @@ boat_name = get_input("What's the name of the boat? ")
 add_to_story(boat_name)
 add_to_story(" to a Coast Guard search team that has covered about ")
 
-# use boat name to determine our search area.
+# use len boat name to determine our search area.
 add_to_story(str(len(boat_name) * 20000))
 add_to_story(" square nautical miles — by air and sea — in the hunt for Austin Stephanos and Perry Cohen.")
 
