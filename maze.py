@@ -44,7 +44,7 @@ def room0():
     description = "This is a room with table and small vile."
     doors = {"north": room1,
              "west": death,
-             "south":room2}
+             "south": room2}
     process_movement(description, doors)
 
 
