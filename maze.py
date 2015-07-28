@@ -1,17 +1,13 @@
 # The amazing maze
+from datetime import datetime
 
-def start():
-    print("Welcome to the Alice in Wonderland Maze!")
-    room0()
 
 def valid(choice, doors):
-    if choice in doors:
+    if choice.lower() in doors:
         return True
-    if choice not in doors:
-        print("Careful, we're case sensitive.")
 
 
-def prompt(doors):
+def prompt(doors, timeout=30):
     invalid = True
 
     while invalid:
@@ -19,11 +15,16 @@ def prompt(doors):
         print("Doors available in this room are:")
         for door in doors:
             print("\t- {}".format(door), sep="\n")
+        start_time = datetime.now()
         choice = input("Which door would you like to use? ")
+        end_time = datetime.now()
         # handle response
-        if valid(choice, doors):
+        elapsed_time = end_time - start_time
+        if int(elapsed_time.total_seconds) > timeout:
+            death(True)
+        elif valid(choice, doors):
             invalid = False
-            return choice
+            return choice.lower()
         else:
             print("An invalid choice was made. Please try again.")
 
@@ -36,28 +37,29 @@ def process_movement(description, doors):
     choice = prompt(doors)
 
     # Get room
-    doors[choice]()
+    doors[choice.lower()]()
+
 
 def room0():
     description = "This is a room with table and small vile."
-    doors = {"North":room1,
-             "West":fall,
-             "South":room2}
+    doors = {"north": room1,
+             "west": death,
+             "south":room2}
     process_movement(description, doors)
 
 
 def room1():
     description = "This room is lined with gold, and snake carvings."
-    doors = {"West":fall,
-             "South":room0,
-             "East":room4}
+    doors = {"west": death,
+             "south": room0,
+             "east": room4}
     process_movement(description, doors)
 
 
 def room2():
     description = "This is very small room, that's very dry."
-    doors = {"North":room0,
-             "East":room3}
+    doors = {"north": room0,
+             "east": room3}
     process_movement(description, doors)
 
 
@@ -65,28 +67,34 @@ def room3():
     description = "This is a room is moderately sized with \
                    Black Betty playing on a loop at 93 Db SPL, \
                    quick get out."
-    doors = {"North":room4,
-             "East":fall,
-             "South":room1}
-    process_movement(description, doors)
+    doors = {"north": room4,
+             "east": death,
+             "south": room1}
+    process_movement(description, doors, 5)
 
 
 def room4():
     description = "The walls are closing in on you, quick, pick a room."
-    doors = {"North":room1,
-             "West":leave,
-             "South":room3}
-    process_movement(description, doors)
+    doors = {"north": room1,
+             "west": leave,
+             "south": room3}
+    process_movement(description, doors, 10)
 
 
-def fall():
-    description = """
-    Congrats, you just walked into an empty pit with spikes
-    you've fallen on many many spikes and have died.
-    wwwwwwwomp....
-    """
+def death(timeout=False):
+    if not timeout:
+        description = """
+        Congrats, you just walked into an empty pit with spikes
+        you've fallen on many many spikes and have died.
+        wwwwwwwomp....
+        """
+    elif timeout:
+        description = """
+        Oh no you took to long and the room killed you.
+        """
     print(description)
     exit()
+
 
 def leave():
     description = """
@@ -97,4 +105,5 @@ def leave():
     exit()
 
 if __name__ == '__main__':
-    start()
+    print("Welcome to the Alice in Wonderland Maze!")
+    room0()
