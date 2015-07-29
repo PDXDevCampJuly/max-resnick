@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
 """
 decoder module
 """
-import sys
+import argparse
 
 
 class Decoder():
@@ -10,12 +11,13 @@ class Decoder():
     Enocder class.
     """
 
-    def __init__(self, args):
-        if len(args) >= 1:
-            self.filename = args[0]
-        elif len(args) == 0:
-            self.filename = 'secret.txt'
-
+    def __init__(self):
+        parser = argparse.ArgumentParser(description="Decode a message.")
+        parser.add_argument('-i', '--input',
+                            help='input file for encrypted message',
+                            default='secret.txt')
+        args = parser.parse_args()
+        self.filename = args.input
         self.process()
 
     def process(self):
@@ -34,4 +36,4 @@ class Decoder():
         return decoded_message
 
 if __name__ == '__main__':
-    Decoder(sys.argv[1:])
+    Decoder()
