@@ -9,7 +9,6 @@ def valid(choice, doors):
 
 def prompt(doors, timeout=30):
     invalid = True
-
     while invalid:
         # Print Avail Doors
         print("Doors available in this room are:")
