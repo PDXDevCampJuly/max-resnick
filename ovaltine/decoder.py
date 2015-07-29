@@ -25,6 +25,7 @@ class Decoder():
         Flow control function
         """
         secret_message = self.read_secret(self.filename)
+        print(secret_message)
         not_so_secret_message = self.decode(secret_message)
         print(not_so_secret_message)
 
@@ -46,13 +47,13 @@ class Decoder():
         decode funcation automagically attemtps to tell if the message is
             encoded with the `-s` option.
         message: encoded message
+        return: decoded message as string
         """
         decoded_message = ""
         try:
             for ordinal in message.split(sep=" "):
                 if len(ordinal) <= 3:
-                    # We check for simple ordinal encoding
-                    continue
+                    pass
                 elif len(ordinal) == 8:
                     num_ordinal_digits_with_offset = int(ordinal[:1]) + 3
                     ordinal = ordinal[3:num_ordinal_digits_with_offset]
