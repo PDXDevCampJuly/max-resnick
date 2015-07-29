@@ -31,14 +31,25 @@ class Encoder():
 
     def process(self, message):
         secret_message = self.transform(message)
-        secret_message_file = self.make_secret(secret_message, self.filename)
+        secret_message_file = self.make_secret(secret_message)
         print("The secret has been stored at: {}".format(secret_message_file))
 
-    def make_secret(self, secret_message, filename):
-        with open(filename, 'w') as f:
+    def make_secret(self, secret_message):
+        """
+        Writes to file given message to file.
+        secret_message: a string to write out to set filename
+        returns: nothing
+        """
+        with open(self.filename, 'w') as f:
             f.write(secret_message)
+        return(self.filename)
 
     def transform(self, message):
+        """
+        Transforms message into an encoded message
+        message: the message to transform as a string.
+        return: the encoded message as string.
+        """
         ordinal_message = ""
         for char in message:
             ordinal_char = str(ord(char))
