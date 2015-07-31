@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-from sys import argv
+
 from collections import Counter
-import pdb
+from argparse import ArgumentParser
 
 """
 A small program to calculate prime factors of a given number.
-
 """
+
+
 def read_from_file():
     """
     returns: list of primes in primes.txt
@@ -22,25 +23,41 @@ def read_from_file():
         print("primes.txt not found.")
 
 
+def get_all_prime_factors(num_to_factor, primes):
+    """
+    num_to_factor: the number to factor.
+    returns: Counter() of prime_factors
+    """
+    prime_factors = Counter()
+    while num_to_factor != 0:
+        prime_factors_of_left_overs, num_to_factor = \
+            find_prime_factor(num_to_factor, primes)
+        prime_factors.update(prime_factors_of_left_overs)
+    return prime_factors
+
+
 def find_prime_factor(num_to_factor, primes):
     """
     num_to_factor: num to find prime factors of.
-    primes: list of primes, must be generated upto num to factor.
+    primes: a list of primes to use, must be primes up to num_to_factor,
+        no sanity checks in place.
+    returns: tuple(prime_factors,  left_over) where:
+        prime_factors is primes found, and left_over is any
+        non primes that were found.
     """
     prime_factors = Counter()
     for index, mod in enumerate([num_to_factor % x for x in primes]):
         if mod == 0:
             prime_factors[primes[index]] += 1
-            check_num = int(num_to_factor / primes[index])
-            if check_num not in primes:
+            left_over = int(num_to_factor / primes[index])
+            if left_over not in primes:
                 # We need to factor this number more!
-                return prime_factors, check_num
-            elif check_num in primes:
-                 prime_factors[primes[index]] += 1
+                return prime_factors, left_over
+            elif left_over in primes:
+                prime_factors[primes[index]] += 1
 
     if len(prime_factors) == 0:
-        print("no prime factors found.")
-        exit()
+        return 0, 0
     return prime_factors, 0
 
 
@@ -57,32 +74,21 @@ def print_factorization(num_to_factor, factors):
     # result += "\033[0m"
     print("The prime facorization is: \n", "\t |--->", num_to_factor, final)
 
+
 def main():
-    # TODO Use argparse, and it would handle this automagically, including casting.
-    if len(argv) != 2:
-        print(
-            "Invalid number or arguments.",
-            "{} requires 1 argument, ".format(argv[0]) +
-            "the max number upto to find primes of.", sep="\n")
-        exit()
-    elif len(argv) == 2:
-        try:
-            num_to_factor = int(argv[1])
-        except TypeError:
-            print("Please enter a number.")
-        primes = read_from_file()
-        prime_factors = Counter()
-        while num_to_factor != 0:
-            prime_factors_of_left_overs, num_to_factor = \
-                find_prime_factor(num_to_factor, primes)
-            prime_factors.update(prime_factors_of_left_overs)
-        # Note we use the initial argument because it's already a string!
-        print_factorization(argv[1], prime_factors)
-        exit()
-    else:
-        # No clue what could cause this, but we're gonna catch it.
-        print("Unknown error has occured.")
-        exit()
+    """
+    Our main function to handle flow.
+    """
+    parser = ArgumentParser(
+        description="Find the prime factors of a given number.")
+    parser.add_argument("number",
+                        help='The number to find the prime factor of.',
+                        type=int)
+    args = parser.parse_args()
+    num_to_factor = args.number
+    primes = read_from_file()
+    factors = get_all_prime_factors(num_to_factor, primes)
+    print_factorization(str(num_to_factor), factors)
 
 if __name__ == '__main__':
     main()
