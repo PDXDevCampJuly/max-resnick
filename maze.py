@@ -19,7 +19,7 @@ def prompt(doors, timeout=30):
         end_time = datetime.now()
         # handle response
         elapsed_time = end_time - start_time
-        if int(elapsed_time.total_seconds) > timeout:
+        if int(elapsed_time.total_seconds()) > timeout:
             death(True)
         elif valid(choice, doors):
             invalid = False
