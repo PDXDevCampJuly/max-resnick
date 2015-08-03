@@ -19,7 +19,6 @@ def selection_sort(our_list):
         # enumerate DOES NOT WORK
         for key in range(start + 1, len(our_list)):
             if our_list[key] < smallest:
-                print("I am smaller", our_list[key], "than", smallest)
                 min_index = key
                 smallest = our_list[key]
         if min_index != start:
@@ -35,8 +34,6 @@ def insertion_sort(our_list):
         candidate = our_list[start]
         candidate_index = start - 1
         while candidate_index >= 0:
-            print(candidate_index)
-            print(candidate, our_list[candidate_index])
             if candidate < our_list[candidate_index]:
                 swappa_list(our_list, candidate_index, candidate_index + 1)
                 candidate_index -= 1
@@ -44,11 +41,31 @@ def insertion_sort(our_list):
                 break
     return our_list
 
+
 def merge_sort(our_list):
     """
     Our first recursive algorithm.
     """
-    pass
+    number_elements = len(our_list)
+    # base case
+    if number_elements == 1:
+        return our_list
 
+    half_index_position = number_elements // 2
+    sorted_list = []
+
+    # recursive goodness
+    lower_half = merge_sort(our_list[:half_index_position])
+    upper_half = merge_sort(our_list[half_index_position:])
+
+    # merging
+    while len(lower_half) > 0 and len(upper_half) > 0:
+        # who is lower?
+        if lower_half[0] <= upper_half[0]:
+            sorted_list.append(lower_half.pop(0))
+        else:
+            sorted_list.append(upper_half.pop(0))
+    sorted_list += lower_half + upper_half
+    return sorted_list
 
 some_list = [5, 4, 3, 2]
