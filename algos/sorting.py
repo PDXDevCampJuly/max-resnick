@@ -3,7 +3,6 @@
 
 def swappa_list(our_list, low, high):
     our_list[low], our_list[high] = our_list[high], our_list[low]
-    print(our_list)
     return our_list
 
 
@@ -32,13 +31,24 @@ def insertion_sort(our_list):
     Insert (via swaps) the next element in the sorted our_list of the previous
     elements.
     """
-    for start in range(len(our_list) + 1, len(our_list)):
-        offset = start - 1
-        if our_list[start] <  our_list[start - 1]:
-            swappa_list(our_list, start, offset)
+    for start in range(1, len(our_list)):
+        candidate = our_list[start]
+        candidate_index = start - 1
+        while candidate_index >= 0:
+            print(candidate_index)
+            print(candidate, our_list[candidate_index])
+            if candidate < our_list[candidate_index]:
+                swappa_list(our_list, candidate_index, candidate_index + 1)
+                candidate_index -= 1
+            else:
+                break
+    return our_list
 
 def merge_sort(our_list):
     """
     Our first recursive algorithm.
     """
     pass
+
+
+some_list = [5, 4, 3, 2]
