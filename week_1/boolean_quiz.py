@@ -1,4 +1,9 @@
 #!/usr/bin/env python2
+"""
+Boolean Quiz, not authored by Max Resnick.
+Author: PDX Code Guild LLC.
+"""
+
 import random
 
 bools = {
