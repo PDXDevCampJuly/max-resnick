@@ -67,5 +67,3 @@ def merge_sort(our_list):
             sorted_list.append(upper_half.pop(0))
     sorted_list += lower_half + upper_half
     return sorted_list
-
-some_list = [5, 4, 3, 2]
