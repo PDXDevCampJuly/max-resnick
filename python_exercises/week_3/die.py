@@ -46,6 +46,7 @@ class Die:
         """
         random_side = randint(0, self.size - 1)
         self.currentValue = self.sides[random_side]
+        return self.currentValue
 if __name__ == '__main__':
     new_dice = Die(argv)
     print(new_dice.roll())
