@@ -2,10 +2,7 @@
 Python implementation of the Angry Dice program
 """
 
-from die import Dice
-
-# "Roll dice:"
-# need to ask user what dice they want to roll
+from die import Die
 
 # each roll need to determine if they have two angry dice, if yes restart to stage 1
 
@@ -20,9 +17,16 @@ class AngryDice:
     A class that represents the game Angry dice
     """
     DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6 ]
+    STAGE = {"stage_1": [1, 2],
+             "stage_2": [2, 'ANGRY'],
+             "stage_3": [5]}
     def __init__(self):
-        dice_a = Dice(*DICE_FACE_VALUES)
-        dice_b = Dice(*DICE_FACE_VALUES)
+        self.dice_a = Die(*self.DICE_FACE_VALUES)
+        self.dice_b = Die(*self.DICE_FACE_VALUES)
+        self.current_stage = "stage_1"
+        self.current_dice_a_value = ""
+        self.current_dice_b_value = ""
+
 
 
     def game_instructions(self):
@@ -54,7 +58,7 @@ class AngryDice:
                 begin = False
         print("hoozah here we go.")
 
-    def get_roll():
+    def get_roll(self):
         """
         required prompt "Roll dice:"
         need to ask user what dice they want to roll
@@ -63,13 +67,13 @@ class AngryDice:
         still_rolling = True
         while still_rolling:
             dirty_dice_to_roll = list(input("Roll dice:"))
-            if len(dice_to_roll) != 0 and ("a" in dirty_dice_to_roll or "b" in dirty_dice_to_roll):
-                still_rolling == False
+            if len(dirty_dice_to_roll) != 0 and ("a" in dirty_dice_to_roll or "b" in dirty_dice_to_roll):
+                still_rolling = False
             elif 'exit' in dice_to_roll:
                 exit()
         if "a" in dirty_dice_to_roll:
             dice_to_roll.append("a")
-        if "b:" in dirty_dice_to_roll:
+        if "b" in dirty_dice_to_roll:
             dice_to_roll.append("b")
         return dice_to_roll
 
@@ -84,3 +88,31 @@ class AngryDice:
         # TODO handle real rolls
         # TODO maybe take pre and post roll text
         print(roll_text.format(arg1, arg2))
+
+
+    def ischeat(self):
+        if self.current_dice_a_value == 6 or self.current_dice_b_value == 6:
+            return True
+        else:
+            return False
+
+    def game_controller(self):
+        """
+        Game controller handles the flow the game.
+        """
+        dice_value = []
+        to_roll = self.get_roll()
+
+        # check for holding on a 6
+        if to_roll != 2 and self.ischeat():
+            attempted_cheat = True
+            to_roll = ["a", "b"]
+
+        # roll the dice
+        for dice in to_roll:
+            if dice == "a":
+                self.current_dice_a_value = self.dice_a.roll()
+            elif dice == "b":
+                self.current_dice_b_value = self.dice_b.roll()
+
+        print(self.current_dice_a_value, self.current_dice_b_value)
