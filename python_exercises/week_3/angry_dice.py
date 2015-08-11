@@ -17,13 +17,14 @@ class AngryDice:
     A class that represents the game Angry dice
     """
     DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6 ]
-    STAGE = {"stage_1": [1, 2],
-             "stage_2": [2, 'ANGRY'],
-             "stage_3": [5]}
+    STAGE = {1: [1, 2],
+             2: ['ANGRY', 4],
+             3: [5, 6]}
+    WINNER_STRING = "You've won! Calm down!"
     def __init__(self):
         self.dice_a = Die(*self.DICE_FACE_VALUES)
         self.dice_b = Die(*self.DICE_FACE_VALUES)
-        self.current_stage = "stage_1"
+        self.current_stage = 1
         self.current_dice_a_value = ""
         self.current_dice_b_value = ""
 
@@ -65,29 +66,37 @@ class AngryDice:
         """
         dice_to_roll = []
         still_rolling = True
+        # Used for exiting up a while stack.
+        game_over = False
         while still_rolling:
             dirty_dice_to_roll = list(input("Roll dice:"))
             if len(dirty_dice_to_roll) != 0 and ("a" in dirty_dice_to_roll or "b" in dirty_dice_to_roll):
                 still_rolling = False
             elif 'exit' in dice_to_roll:
-                exit()
+                game_over = True
         if "a" in dirty_dice_to_roll:
             dice_to_roll.append("a")
         if "b" in dirty_dice_to_roll:
             dice_to_roll.append("b")
-        return dice_to_roll
+        return dice_to_roll, game_over
 
-    def print_roll(self):
+    def print_roll(self, cheater):
         """
         prints current roll, output should match:
         You rolled:
             a = [  5  ]
             b = [  ANGRY  ]
         """
+        if cheater:
+            cheater = "You're cheating! You cannot lock a 6! You cannot win until you reroll it!\n"
+        else:
+            cheater = ""
         roll_text = "You rolled: \n" + "   a = [  {}  ]\n" + "   b = [  {}  ]"
-        # TODO handle real rolls
+        roll_turn = "\nYou are in Stage {}"
+        statement = cheater + roll_text + roll_turn
+
         # TODO maybe take pre and post roll text
-        print(roll_text.format(arg1, arg2))
+        print(statement.format(self.current_dice_a_value, self.current_dice_b_value, self.current_stage))
 
 
     def ischeat(self):
@@ -96,23 +105,58 @@ class AngryDice:
         else:
             return False
 
+
+    def check_roll(self):
+        """
+        checks current roll values
+        first checks if we've reached angry status
+        if we've met all conditions for the stage we move to the next stage
+        """
+
+        print(self.current_dice_a_value in self.STAGE[self.current_stage], self.current_dice_b_value in self.STAGE[self.current_stage])
+        if self.check_angry():
+            # we don't need to move the stage if we are angry so we pass
+            pass
+
+        elif self.current_dice_a_value in self.STAGE[self.current_stage] \
+                and self.current_dice_b_value in self.STAGE[self.current_stage]:
+            self.current_stage += 1
+
+    def check_angry(self):
+        """
+        Checks if user has reached Angry!
+        Resets user to stage 1
+        returns True if they've reached angry status
+        """
+        if self.current_dice_a_value == "ANGRY" and self.current_dice_b_value == "ANGRY":
+            self.current_stage = 1
+            return True
+        else:
+            return False
+
     def game_controller(self):
         """
         Game controller handles the flow the game.
         """
-        dice_value = []
-        to_roll = self.get_roll()
+        game_over = False
+        while not game_over:
+            to_roll, game_over = self.get_roll()
+            attempted_cheat = False
+            # check for holding on a 6, force roll
+            if to_roll != 2 and self.ischeat():
+                attempted_cheat = True
+                to_roll = ["a", "b"]
 
-        # check for holding on a 6
-        if to_roll != 2 and self.ischeat():
-            attempted_cheat = True
-            to_roll = ["a", "b"]
-
-        # roll the dice
-        for dice in to_roll:
-            if dice == "a":
-                self.current_dice_a_value = self.dice_a.roll()
-            elif dice == "b":
-                self.current_dice_b_value = self.dice_b.roll()
-
-        print(self.current_dice_a_value, self.current_dice_b_value)
+            # roll the dice, cast to string, Die class can return various type.
+            for dice in to_roll:
+                if dice == "a":
+                    self.current_dice_a_value = self.dice_a.roll()
+                elif dice == "b":
+                    self.current_dice_b_value = self.dice_b.roll()
+            self.check_roll()
+            if self.current_stage == 4:
+                # we have a winner because we've incremented the current stage beyond the game
+                print(self.WINNER_STRING)
+                game_over = True
+            else:
+                self.print_roll(attempted_cheat)
