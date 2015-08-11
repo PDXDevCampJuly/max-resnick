@@ -4,13 +4,6 @@ Python implementation of the Angry Dice program
 
 from die import Die
 
-# each roll need to determine if they have two angry dice, if yes restart to stage 1
-
-# each roll need to determine if they passed stage
-
-# each roll determine a if they have completed the game
-
-# each roll do not allow a 6 to be held, do not allow win
 
 class AngryDice:
     """
@@ -27,8 +20,6 @@ class AngryDice:
         self.current_stage = 1
         self.current_dice_a_value = ""
         self.current_dice_b_value = ""
-
-
 
     def game_instructions(self):
         """
@@ -99,12 +90,20 @@ class AngryDice:
         print(statement.format(self.current_dice_a_value, self.current_dice_b_value, self.current_stage))
 
 
-    def ischeat(self):
-        if self.current_dice_a_value == 6 or self.current_dice_b_value == 6:
-            return True
-        else:
-            return False
-
+    def ischeat(self, to_roll):
+        """
+        input a list of dice to roll (this should really be 1.)
+        return true if user is holding on a 6
+        """
+        # Just in case we get more that 1 item in our list, which we shouldn't...
+        for roll in to_roll:
+            if self.current_dice_a_value == 6 and roll == "b":
+                cheat = True
+            elif self.current_dice_b_value == 6 and roll == "a":
+                cheat = True
+            else:
+                cheat = False
+        return cheat
 
     def check_roll(self):
         """
@@ -112,14 +111,13 @@ class AngryDice:
         first checks if we've reached angry status
         if we've met all conditions for the stage we move to the next stage
         """
-
-        print(self.current_dice_a_value in self.STAGE[self.current_stage], self.current_dice_b_value in self.STAGE[self.current_stage])
+        # we cast to sets for easy comparisons
+        current_values = set([self.current_dice_a_value, self.current_dice_b_value])
+        stage_complete_values = set(self.STAGE[self.current_stage])
         if self.check_angry():
-            # we don't need to move the stage if we are angry so we pass
             pass
 
-        elif self.current_dice_a_value in self.STAGE[self.current_stage] \
-                and self.current_dice_b_value in self.STAGE[self.current_stage]:
+        elif len(stage_complete_values ^ current_values) == 0:
             self.current_stage += 1
 
     def check_angry(self):
@@ -143,7 +141,7 @@ class AngryDice:
             to_roll, game_over = self.get_roll()
             attempted_cheat = False
             # check for holding on a 6, force roll
-            if to_roll != 2 and self.ischeat():
+            if len(to_roll) != 2 and self.ischeat(to_roll):
                 attempted_cheat = True
                 to_roll = ["a", "b"]
 
