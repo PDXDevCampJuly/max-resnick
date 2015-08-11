@@ -113,18 +113,34 @@ class AngryDice:
     def ischeat(self, to_roll):
         """
         input a list of dice to roll (this should really be 1.)
-        return true if user is holding on a 6
+        return true if user is holding on a 6, or 
+            attempting to hold a dice that's not part of current_stage
+            exit criteria
         """
-        # Immediately return False if we're not in stage 3
-        if not self.current_stage != 3:
-            return False
         # Just in case we get more that 1 item in our list
         for roll in to_roll:
+            # check for holding 6 on a "a" dice
             if self.current_dice_a_value == 6 and roll == "b":
                 cheat = True
+
+            # check for holding 6 on a "b" dice
             elif self.current_dice_b_value == 6 and roll == "a":
                 cheat = True
-            else:
+
+            # check for holding any value which is
+            # not part of next stage criteria
+            elif self.current_dice_a_value not in \
+                    self.STAGE[self.current_stage] and roll == "b":
+                cheat = True
+
+            # check for holding any value which is
+            # not part of next stage criteria
+            elif self.current_dice_b_value not in \
+                    self.STAGE[self.current_stage] and roll == "a":
+                cheat = True
+
+            # Hoooray we're not a cheat, set only once, on the first loop
+            elif cheat is None:
                 cheat = False
         return cheat
 
@@ -140,7 +156,7 @@ class AngryDice:
         stage_complete_values = set(self.STAGE[self.current_stage])
         if self.check_angry():
             pass
-
+        # if the two sets are equivalent, we get are return a list of len 0
         elif len(stage_complete_values ^ current_values) == 0:
             self.current_stage += 1
 
@@ -169,7 +185,7 @@ class AngryDice:
         while not game_over:
             to_roll, game_over = self.get_roll()
             attempted_cheat = False
-            # check for holding on a 6, force roll
+            # check for holding on a non value allowed for stage, force roll
             if len(to_roll) != 2 and self.ischeat(to_roll):
                 attempted_cheat = True
                 to_roll = ["a", "b"]
