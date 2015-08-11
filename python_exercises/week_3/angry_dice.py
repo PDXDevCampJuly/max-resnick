@@ -50,7 +50,17 @@ class AngryDice:
                 begin = False
             elif start == 'exit':
                 begin = False
-        print("hoozah here we go.")
+
+    def clean_input(self, input_string):
+        """
+        Cleans input string, so we have upto two single die to use.
+        """
+        dice_to_roll = []
+        if "a" in input_string:
+            dice_to_roll.append("a")
+        if "b" in input_string:
+            dice_to_roll.append("b")
+        return dice_to_roll
 
     def get_roll(self):
         """
@@ -62,15 +72,16 @@ class AngryDice:
         # Used for exiting up a while stack.
         game_over = False
         while still_rolling:
-            dirty_dice_to_roll = list(input("Roll dice:"))
-            if len(dirty_dice_to_roll) != 0 and ("a" in dirty_dice_to_roll or "b" in dirty_dice_to_roll):
+            input_string = input("Roll dice:")
+
+            # we leave this is a string, for exit condition.
+            if input_string == 'exit':
+                # user typed exit.
+                return dice_to_roll, True
+            elif len(input_string) != 0 and \
+                    ("a" in input_string or "b" in input_string):
                 still_rolling = False
-            elif 'exit' in dice_to_roll:
-                game_over = True
-        if "a" in dirty_dice_to_roll:
-            dice_to_roll.append("a")
-        if "b" in dirty_dice_to_roll:
-            dice_to_roll.append("b")
+        dice_to_roll = self.clean_input(input_string)
         return dice_to_roll, game_over
 
     def print_roll(self, cheater):
@@ -142,6 +153,7 @@ class AngryDice:
         """
         Game controller handles the flow the game.
         """
+        self.game_instructions()
         game_over = False
         while not game_over:
             to_roll, game_over = self.get_roll()
@@ -164,3 +176,7 @@ class AngryDice:
                 game_over = True
             else:
                 self.print_roll(attempted_cheat)
+
+if __name__ == '__main__':
+    new_game = AngryDice()
+    new_game.game_controller()
