@@ -48,5 +48,6 @@ class Die:
         self.currentValue = self.sides[random_side]
         return self.currentValue
 if __name__ == '__main__':
+    # if you for some reason decide to run via cli
     new_dice = Die(argv)
     print(new_dice.roll())
