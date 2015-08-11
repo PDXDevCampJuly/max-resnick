@@ -10,18 +10,23 @@ class AngryDice:
     A class that represents the game Angry dice
     """
     # Class constants, that might make life easier for scope change.
-    DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6]
+    DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6] 
     STAGE = {1: [1, 2],
              2: ['ANGRY', 4],
              3: [5, 6]}
     WINNER_STRING = "You've won! Calm down!"
 
-    def __init__(self):
+    def __init__(self, start=True):
+        """
+        input start:boolean defaults to True. If set to false the game will not start.
+        """
         self.dice_a = Die(*self.DICE_FACE_VALUES)
         self.dice_b = Die(*self.DICE_FACE_VALUES)
         self.current_stage = 1
         self.current_dice_a_value = ""
         self.current_dice_b_value = ""
+        if start:
+            self.game_controller()
 
     def game_instructions(self):
         """
@@ -157,6 +162,7 @@ class AngryDice:
     def game_controller(self):
         """
         Game controller handles the flow the game.
+        This is equivalent to main()
         """
         self.game_instructions()
         game_over = False
@@ -185,4 +191,3 @@ class AngryDice:
 
 if __name__ == '__main__':
     new_game = AngryDice()
-    new_game.game_controller()
