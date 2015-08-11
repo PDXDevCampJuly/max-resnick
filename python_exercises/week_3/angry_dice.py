@@ -9,11 +9,13 @@ class AngryDice:
     """
     A class that represents the game Angry dice
     """
-    DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6 ]
+    # Class constants, that might make life easier for scope change.
+    DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6]
     STAGE = {1: [1, 2],
              2: ['ANGRY', 4],
              3: [5, 6]}
     WINNER_STRING = "You've won! Calm down!"
+
     def __init__(self):
         self.dice_a = Die(*self.DICE_FACE_VALUES)
         self.dice_b = Die(*self.DICE_FACE_VALUES)
@@ -25,8 +27,6 @@ class AngryDice:
         """
         need to give user instructions
         need to prompt user to start
-        TOOD maybe refactor so this just takes a prompt string + validator function
-            returns true or false
         """
 
         instructions = \
@@ -86,22 +86,24 @@ class AngryDice:
 
     def print_roll(self, cheater):
         """
+        input: boolean, if true, we print the cheater notice
         prints current roll, output should match:
         You rolled:
             a = [  5  ]
             b = [  ANGRY  ]
+        You are in Stage #
         """
         if cheater:
-            cheater = "You're cheating! You cannot lock a 6! You cannot win until you reroll it!\n"
+            cheater = ("You're cheating! You cannot lock a 6!"
+                       "You cannot win until you reroll it!\n")
         else:
             cheater = ""
         roll_text = "You rolled: \n" + "   a = [  {}  ]\n" + "   b = [  {}  ]"
         roll_turn = "\nYou are in Stage {}"
         statement = cheater + roll_text + roll_turn
 
-        # TODO maybe take pre and post roll text
-        print(statement.format(self.current_dice_a_value, self.current_dice_b_value, self.current_stage))
-
+        print(statement.format(self.current_dice_a_value,
+                               self.current_dice_b_value, self.current_stage))
 
     def ischeat(self, to_roll):
         """
@@ -111,7 +113,7 @@ class AngryDice:
         # Immediately return False if we're not in stage 3
         if not self.current_stage != 3:
             return False
-        # Just in case we get more that 1 item in our list, which we shouldn't...
+        # Just in case we get more that 1 item in our list
         for roll in to_roll:
             if self.current_dice_a_value == 6 and roll == "b":
                 cheat = True
@@ -128,7 +130,8 @@ class AngryDice:
         if we've met all conditions for the stage we move to the next stage
         """
         # we cast to sets for easy comparisons
-        current_values = set([self.current_dice_a_value, self.current_dice_b_value])
+        current_values = set([self.current_dice_a_value,
+                             self.current_dice_b_value])
         stage_complete_values = set(self.STAGE[self.current_stage])
         if self.check_angry():
             pass
@@ -142,7 +145,9 @@ class AngryDice:
         Resets user to stage 1
         returns True if they've reached angry status
         """
-        if self.current_dice_a_value == "ANGRY" and self.current_dice_b_value == "ANGRY":
+        if self.current_dice_a_value == "ANGRY" and \
+                self.current_dice_b_value == "ANGRY":
+
             self.current_stage = 1
             print("WOW, you're ANGRY!\n" + "Time to go back to Stage 1!")
             return True
@@ -171,7 +176,8 @@ class AngryDice:
                     self.current_dice_b_value = self.dice_b.roll()
             self.check_roll()
             if self.current_stage == 4:
-                # we have a winner because we've incremented the current stage beyond the game
+                # we have a winner because we've incremented
+                # the current stage beyond the game
                 print(self.WINNER_STRING)
                 game_over = True
             else:
