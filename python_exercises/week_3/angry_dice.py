@@ -156,7 +156,8 @@ class AngryDice:
         stage_complete_values = set(self.STAGE[self.current_stage])
         if self.check_angry():
             pass
-        # if the two sets are equivalent, we get are return a list of len 0
+        # if the two sets are equivalent, we get are returned a list of len 0
+        # thusly we've met stage exit criterea.
         elif len(stage_complete_values ^ current_values) == 0:
             self.current_stage += 1
 
