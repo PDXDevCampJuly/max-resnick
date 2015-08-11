@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module angry_dice</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>angry_dice</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/grumps/bootcamp/code/max-resnick/python_exercises/week_3/angry_dice.py">/home/grumps/bootcamp/code/max-resnick/python_exercises/week_3/angry_dice.py</a></font></td></tr></table>
+    <p><tt>Python&nbsp;implementation&nbsp;of&nbsp;the&nbsp;Angry&nbsp;Dice&nbsp;program</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="angry_dice.html#AngryDice">AngryDice</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AngryDice">class <strong>AngryDice</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;class&nbsp;that&nbsp;represents&nbsp;the&nbsp;game&nbsp;Angry&nbsp;dice<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="AngryDice-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="AngryDice-check_angry"><strong>check_angry</strong></a>(self)</dt><dd><tt>Checks&nbsp;if&nbsp;user&nbsp;has&nbsp;reached&nbsp;Angry!<br>
+Resets&nbsp;user&nbsp;to&nbsp;stage&nbsp;1<br>
+returns&nbsp;True&nbsp;if&nbsp;they've&nbsp;reached&nbsp;angry&nbsp;status</tt></dd></dl>
+
+<dl><dt><a name="AngryDice-check_roll"><strong>check_roll</strong></a>(self)</dt><dd><tt>checks&nbsp;current&nbsp;roll&nbsp;values<br>
+first&nbsp;checks&nbsp;if&nbsp;we've&nbsp;reached&nbsp;angry&nbsp;status<br>
+if&nbsp;we've&nbsp;met&nbsp;all&nbsp;conditions&nbsp;for&nbsp;the&nbsp;stage&nbsp;we&nbsp;move&nbsp;to&nbsp;the&nbsp;next&nbsp;stage</tt></dd></dl>
+
+<dl><dt><a name="AngryDice-clean_input"><strong>clean_input</strong></a>(self, input_string)</dt><dd><tt>Cleans&nbsp;input&nbsp;string,&nbsp;so&nbsp;we&nbsp;have&nbsp;upto&nbsp;two&nbsp;single&nbsp;die&nbsp;to&nbsp;use.</tt></dd></dl>
+
+<dl><dt><a name="AngryDice-game_controller"><strong>game_controller</strong></a>(self)</dt><dd><tt>Game&nbsp;controller&nbsp;handles&nbsp;the&nbsp;flow&nbsp;the&nbsp;game.</tt></dd></dl>
+
+<dl><dt><a name="AngryDice-game_instructions"><strong>game_instructions</strong></a>(self)</dt><dd><tt>need&nbsp;to&nbsp;give&nbsp;user&nbsp;instructions<br>
+need&nbsp;to&nbsp;prompt&nbsp;user&nbsp;to&nbsp;start</tt></dd></dl>
+
+<dl><dt><a name="AngryDice-get_roll"><strong>get_roll</strong></a>(self)</dt><dd><tt>required&nbsp;prompt&nbsp;"Roll&nbsp;dice:"<br>
+need&nbsp;to&nbsp;ask&nbsp;user&nbsp;what&nbsp;dice&nbsp;they&nbsp;want&nbsp;to&nbsp;roll</tt></dd></dl>
+
+<dl><dt><a name="AngryDice-ischeat"><strong>ischeat</strong></a>(self, to_roll)</dt><dd><tt>input&nbsp;a&nbsp;list&nbsp;of&nbsp;dice&nbsp;to&nbsp;roll&nbsp;(this&nbsp;should&nbsp;really&nbsp;be&nbsp;1.)<br>
+return&nbsp;true&nbsp;if&nbsp;user&nbsp;is&nbsp;holding&nbsp;on&nbsp;a&nbsp;6</tt></dd></dl>
+
+<dl><dt><a name="AngryDice-print_roll"><strong>print_roll</strong></a>(self, cheater)</dt><dd><tt>input:&nbsp;boolean,&nbsp;if&nbsp;true,&nbsp;we&nbsp;print&nbsp;the&nbsp;cheater&nbsp;notice<br>
+prints&nbsp;current&nbsp;roll,&nbsp;output&nbsp;should&nbsp;match:<br>
+You&nbsp;rolled:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;=&nbsp;[&nbsp;&nbsp;5&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;=&nbsp;[&nbsp;&nbsp;ANGRY&nbsp;&nbsp;]<br>
+You&nbsp;are&nbsp;in&nbsp;Stage&nbsp;#</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DICE_FACE_VALUES</strong> = [1, 2, 'ANGRY', 4, 5, 6]</dl>
+
+<dl><dt><strong>STAGE</strong> = {1: [1, 2], 2: ['ANGRY', 4], 3: [5, 6]}</dl>
+
+<dl><dt><strong>WINNER_STRING</strong> = "You've won! Calm down!"</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>
