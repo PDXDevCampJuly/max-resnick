@@ -34,10 +34,12 @@ class AngryDice:
         "Stage 1 you need to roll 1 & 2\n"
         "Stage 2 you need to roll ANGRY & 4\n"
         "Stage 3 you need to roll 5 & 6\n"
-        "You can lock a die needed for your current stage and just roll the other one, but beware!\n"
+        "You can lock a die needed for your current stage\n"
+        "and just roll the other one, but beware!\n"
         "If you ever get 2 ANGRY's at once, you have to restart to Stage 1!\n"
         "Also, you can never lock a 6! That's cheating!\n\n"
-        "To roll the dice, simply input the name of the die you want to roll. Their names are a and b.")
+        "To roll the dice, simply input the name of the die you want to roll. Their names are a and b.\n"
+        "Press ENTER to start!")
 
         print(instructions)
         begin = True
@@ -95,6 +97,9 @@ class AngryDice:
         input a list of dice to roll (this should really be 1.)
         return true if user is holding on a 6
         """
+        # Immediately return False if we're not in stage 3
+        if not self.current_stage != 3:
+            return False
         # Just in case we get more that 1 item in our list, which we shouldn't...
         for roll in to_roll:
             if self.current_dice_a_value == 6 and roll == "b":
@@ -128,6 +133,7 @@ class AngryDice:
         """
         if self.current_dice_a_value == "ANGRY" and self.current_dice_b_value == "ANGRY":
             self.current_stage = 1
+            print("WOW, you're ANGRY!\n" + "Time to go back to Stage 1!")
             return True
         else:
             return False
