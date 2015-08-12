@@ -71,7 +71,6 @@ class AngryDice:
 
     def get_roll(self):
         """
-        required prompt "Roll dice:"
         need to ask user what dice they want to roll
         """
         still_rolling = True
