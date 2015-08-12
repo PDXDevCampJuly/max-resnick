@@ -1,7 +1,6 @@
 """
-Python implementation of the Angry Dice program
+Python implementation of the Angry Dice Game
 """
-
 from die import Die
 
 
@@ -10,7 +9,7 @@ class AngryDice:
     A class that represents the game Angry dice
     """
     # Class constants, that might make life easier for scope change.
-    DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6] 
+    DICE_FACE_VALUES = [1, 2, "ANGRY", 4, 5, 6]
     STAGE = {1: [1, 2],
              2: ['ANGRY', 4],
              3: [5, 6]}
@@ -25,6 +24,7 @@ class AngryDice:
         self.current_stage = 1
         self.current_dice_a_value = ""
         self.current_dice_b_value = ""
+        self.game_over = False
         if start:
             self.game_controller()
 
@@ -43,24 +43,26 @@ class AngryDice:
         "and just roll the other one, but beware!\n"
         "If you ever get 2 ANGRY's at once, you have to restart to Stage 1!\n"
         "Also, you can never lock a 6! That's cheating!\n\n"
-        "To roll the dice, simply input the name of the die you want to roll. Their names are a and b.\n"
-        "Press ENTER to start!")
+        "To roll the dice, simply input the name of the die you want to roll. Their names are a and b.\n")
 
         print(instructions)
         begin = True
         # we wait for exit or enter to be pressed.
         while begin:
-            start = input("waiting to begin....")
+            start = input("Press ENTER to start!")
             if start == '':
                 begin = False
             elif start == 'exit':
                 begin = False
 
-    def clean_input(self, input_string):
+    def clean_input(self):
         """
         Cleans input string, so we have upto two single die to use.
         """
         dice_to_roll = []
+        input_string = input("Roll dice:")
+        if "exit" in input_string:
+            dice_to_roll.append("exit")
         if "a" in input_string:
             dice_to_roll.append("a")
         if "b" in input_string:
@@ -72,22 +74,18 @@ class AngryDice:
         required prompt "Roll dice:"
         need to ask user what dice they want to roll
         """
-        dice_to_roll = []
         still_rolling = True
-        # Used for exiting up a while stack.
-        game_over = False
         while still_rolling:
-            input_string = input("Roll dice:")
-
+            dice_to_roll = self.clean_input()
             # we leave this is a string, for exit condition.
-            if input_string == 'exit':
-                # user typed exit.
-                return dice_to_roll, True
-            elif len(input_string) != 0 and \
-                    ("a" in input_string or "b" in input_string):
+            if "exit" in dice_to_roll:
+                # user typed exit, we throw game_over
+                self.game_over = True
+                return dice_to_roll
+            elif len(dice_to_roll) != 0 and \
+                    ("a" in dice_to_roll or "b" in dice_to_roll):
                 still_rolling = False
-        dice_to_roll = self.clean_input(input_string)
-        return dice_to_roll, game_over
+        return dice_to_roll
 
     def print_roll(self, cheater):
         """
@@ -110,10 +108,10 @@ class AngryDice:
         print(statement.format(self.current_dice_a_value,
                                self.current_dice_b_value, self.current_stage))
 
-    def ischeat(self, to_roll):
+    def is_cheat(self, to_roll):
         """
         input a list of dice to roll (this should really be 1.)
-        return true if user is holding on a 6, or 
+        return true if user is holding on a 6, or
             attempting to hold a dice that's not part of current_stage
             exit criteria
         """
@@ -121,28 +119,27 @@ class AngryDice:
         for roll in to_roll:
             # check for holding 6 on a "a" dice
             if self.current_dice_a_value == 6 and roll == "b":
-                cheat = True
+                return True
 
             # check for holding 6 on a "b" dice
             elif self.current_dice_b_value == 6 and roll == "a":
-                cheat = True
+                return True
 
             # check for holding any value which is
             # not part of next stage criteria
             elif self.current_dice_a_value not in \
                     self.STAGE[self.current_stage] and roll == "b":
-                cheat = True
+                return True
 
             # check for holding any value which is
             # not part of next stage criteria
             elif self.current_dice_b_value not in \
                     self.STAGE[self.current_stage] and roll == "a":
-                cheat = True
+                return True
 
-            # Hoooray we're not a cheat, set only once, on the first loop
-            elif cheat is None:
-                cheat = False
-        return cheat
+            # Hoooray we're not a cheat
+            else:
+                return False
 
     def check_roll(self):
         """
@@ -151,13 +148,14 @@ class AngryDice:
         if we've met all conditions for the stage we move to the next stage
         """
         # we cast to sets for easy comparisons
-        current_values = set([self.current_dice_a_value,
-                             self.current_dice_b_value])
+        current_values = {self.current_dice_a_value,
+                             self.current_dice_b_value}
         stage_complete_values = set(self.STAGE[self.current_stage])
+        # we are checking
         if self.check_angry():
-            pass
+            return
         # if the two sets are equivalent, we get are returned a list of len 0
-        # thusly we've met stage exit criterea.
+        # thusly we've met stage exit criteria.
         elif len(stage_complete_values ^ current_values) == 0:
             self.current_stage += 1
 
@@ -182,27 +180,25 @@ class AngryDice:
         This is equivalent to main()
         """
         self.game_instructions()
-        game_over = False
-        while not game_over:
-            to_roll, game_over = self.get_roll()
+        while not self.game_over:
+            to_roll = self.get_roll()
             attempted_cheat = False
             # check for holding on a non value allowed for stage, force roll
-            if len(to_roll) != 2 and self.ischeat(to_roll):
+            if len(to_roll) != 2 and self.is_cheat(to_roll):
                 attempted_cheat = True
                 to_roll = ["a", "b"]
-
-            # roll the dice, cast to string, Die class can return various type.
             for dice in to_roll:
                 if dice == "a":
                     self.current_dice_a_value = self.dice_a.roll()
                 elif dice == "b":
                     self.current_dice_b_value = self.dice_b.roll()
+
             self.check_roll()
             if self.current_stage == 4:
                 # we have a winner because we've incremented
                 # the current stage beyond the game
                 print(self.WINNER_STRING)
-                game_over = True
+                self.game_over = True
             else:
                 self.print_roll(attempted_cheat)
 
