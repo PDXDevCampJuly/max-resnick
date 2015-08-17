@@ -1,0 +1,99 @@
+/*
+ * Sidebar CSS
+ * colors:  http://www.colourlovers.com/web/trends/websites/78
+ * #FEFEE7
+ * #A4D0C4
+ * #72C4B9
+ * #9A9C9F
+ * #0F0F0D
+ */
+
+
+/* kill some browser defaults */
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    background-color:  #FEFEE7;
+
+}
+
+li {
+    list-style: none;
+}
+
+/* wrappers */
+
+article {
+    display: inline-block
+}
+
+/* navbar */
+nav.navbar {
+    background-color: #332F3E;
+    min-height: 2em;
+    width 97%
+    display: block;
+    text-align:right;
+    /* shameful rip from a blog post about material design */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+    /* Oh nooooo stole this from S.O. in attempt to
+     * get the shadow on top of the 
+     * sidebar. ;-)
+     */
+    position: relative;
+}
+.navbar li {
+    display: inline-block;
+    margin-right: 1em;
+    padding: .5em;
+    color: #72C4B9;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+.navbar a {
+    color: #72C4B9;
+}
+
+
+/* sidebar */
+nav.sidebar {
+    background-color: #72C4B9;
+    display: inline-block;
+    max-width: 6em;
+    width: 20%;
+    min-width: 160px;
+    height:97%;
+    padding-top: 2em;
+}
+
+.sidebar li {
+    font-weight:700;
+    padding-bottom: .5em;
+    margin-bottom: .25em;
+    margin-left: 1em;
+    display: block;
+}
+
+.sidebar a {
+    color: #332F3E;
+}
+
+.sidebar a:hover {
+    color: #E6C973;
+}
+/* main content */
+main {
+    display: inline-block;
+    width: 80%;
+    margin-top: 0px;
+    padding-right 2em;
+    padding-left: 2em;
+}
