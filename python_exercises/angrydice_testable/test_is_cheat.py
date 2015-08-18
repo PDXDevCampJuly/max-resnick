@@ -90,6 +90,14 @@ class IsCheatTest(unittest.TestCase):
         self.new_game.current_stage = 3
         self.assertFalse(self.new_game.is_cheat(["a"]))
 
+    def test_check_if_input_isnt_list(self):
+        """test if the cheat f() isn't passed a list."""
+        try:
+            self.new_game.is_cheat(3)
+        except TypeError:
+            self.assertTrue(True)
+        else:
+            self.assertTrue(False, "The correct error type wasn't raised")
 
 if __name__ == '__main__':
     unittest.main()
