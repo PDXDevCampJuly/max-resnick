@@ -118,32 +118,34 @@ class AngryDice:
             attempting to hold a dice that's not part of current_stage
             exit criteria
         """
-        # Just in case we get more that 1 item in our list
-        for roll in to_roll:
-            # check for holding 6 on a "a" dice
-            if self.current_dice_a_value == 6 and roll == "b":
-                return True
+        if type(to_roll) == list:
+            # Just in case we get more that 1 item in our list
+            for roll in to_roll:
+                # check for holding 6 on a "a" dice
+                if self.current_dice_a_value == 6 and roll == "b":
+                    return True
 
-            # check for holding 6 on a "b" dice
-            elif self.current_dice_b_value == 6 and roll == "a":
-                return True
+                # check for holding 6 on a "b" dice
+                elif self.current_dice_b_value == 6 and roll == "a":
+                    return True
 
-            # check for holding any value which is
-            # not part of next stage criteria
-            elif self.current_dice_a_value not in \
-                    self.STAGE[self.current_stage] and roll == "b":
-                return True
+                # check for holding any value which is
+                # not part of next stage criteria
+                elif self.current_dice_a_value not in \
+                        self.STAGE[self.current_stage] and roll == "b":
+                    return True
 
-            # check for holding any value which is
-            # not part of next stage criteria
-            elif self.current_dice_b_value not in \
-                    self.STAGE[self.current_stage] and roll == "a":
-                return True
+                # check for holding any value which is
+                # not part of next stage criteria
+                elif self.current_dice_b_value not in \
+                        self.STAGE[self.current_stage] and roll == "a":
+                    return True
 
-            # Hoooray we're not a cheat
-            else:
-                return False
-
+                # Hoooray we're not a cheat
+                else:
+                    return False
+        else:
+            raise TypeError
     def check_roll(self):
         """
         checks current roll values
