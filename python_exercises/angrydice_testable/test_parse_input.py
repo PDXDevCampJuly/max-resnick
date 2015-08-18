@@ -39,8 +39,34 @@ class ParseInputTest(unittest.TestCase):
 
     @patch('builtins.input', return_value='bbbccc32423432bbb')
     def test_parse_many_a_and_others(self, return_value):
-        """ tests the function correctly respond with 'a' for a many 'a' + invalid roll request"""
+        """ tests the function correctly respond with 'b' for a many 'b' + invalid roll request"""
         self.assertEqual(['b'], self.new_game.parse_input())
+
+    @patch('builtins.input', return_value='exit')
+    def test_parse_single_exit(self, return_value):
+        """ tests the function correctly respond with 'exit for a single 'b' roll request"""
+        self.assertEqual(['exit'], self.new_game.parse_input())
+
+    @patch('builtins.input', return_value='exitexitexit')
+    def test_parse_many_exit(self, return_value):
+        """ tests the function correctly respond with 'exit' for many 'exit' roll request"""
+        self.assertEqual(['exit'], self.new_game.parse_input())
+
+    @patch('builtins.input', return_value='bbbcccexitaaa')
+    def test_parse_many_exit_and_others(self, return_value):
+        """ tests the function correctly respond with 'exit' for a many 'ba' + invalid roll request"""
+        self.assertEqual(['exit'], self.new_game.parse_input())
+
+    @patch('builtins.input', return_value='e')
+    def test_parse_invalid_request(self, return_value):
+        """ tests the function correctly respond with '' for a 'invalid' roll request"""
+        self.assertEqual([], self.new_game.parse_input())
+
+
+    @patch('builtins.input', return_value='eyetiuoewurpoewur')
+    def test_parse_invalid_requests(self, return_value):
+        """ tests the function correctly respond with '' for many 'invalid' roll request"""
+        self.assertEqual([], self.new_game.parse_input())
 
 if __name__ == '__main__':
     unittest.main()
