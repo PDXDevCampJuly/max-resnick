@@ -71,8 +71,23 @@ class AngryDice:
             dice_to_roll.append("a")
         if "b" in input_string:
             dice_to_roll.append("b")
-        if not ("a" in dice_to_roll or "b" in dice_to_roll):
-            self.parse_input()
+        return dice_to_roll
+
+    def get_roll(self):
+        """
+        need to ask user what dice they want to roll
+        """
+        still_rolling = True
+        while still_rolling:
+            dice_to_roll = self.parse_input()
+            # we leave this is a string, for exit condition.
+            if "exit" in dice_to_roll:
+                # user typed exit, we throw game_over
+                self.game_over = True
+                return dice_to_roll
+            elif len(dice_to_roll) != 0 and \
+                "a" in dice_to_roll or "b" in dice_to_roll:
+                still_rolling = False
         return dice_to_roll
 
     def print_roll(self, cheater):
@@ -169,7 +184,7 @@ class AngryDice:
         """
         self.game_instructions()
         while not self.game_over:
-            to_roll = self.parse_input()
+            to_roll = self.get_roll()
             attempted_cheat = False
             # check for holding on a non value allowed for stage, force roll
             if len(to_roll) != 2 and self.is_cheat(to_roll):
