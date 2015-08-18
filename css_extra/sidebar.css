@@ -34,11 +34,16 @@ article {
     display: inline-block
 }
 
+.page_wrapper {
+    width: 97%;
+    height: 90.5%;
+}
+
 /* navbar */
 nav.navbar {
     background-color: #332F3E;
-    min-height: 2em;
-    width 97%
+    height: 47px;
+    width 97%;
     display: block;
     text-align:right;
     /* shameful rip from a blog post about material design */
