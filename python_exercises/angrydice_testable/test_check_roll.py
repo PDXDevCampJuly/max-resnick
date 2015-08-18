@@ -82,3 +82,6 @@ class AngryCheckRoll(unittest.TestCase):
         self.new_game.current_dice_b_value = "ANGRY"
         self.new_game.current_stage = 3
         self.assertEqual(3, self.new_game.check_roll())
+
+if __name__ == '__main__':
+    unittest.main()
