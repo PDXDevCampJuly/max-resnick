@@ -56,7 +56,7 @@ class AngryDice:
             elif start == 'exit':
                 begin = False
 
-    def clean_input(self):
+    def parse_input(self):
         """
         Cleans input string, so we have upto two single die to use.
         """
@@ -64,26 +64,26 @@ class AngryDice:
         input_string = input("Roll dice:")
         if "exit" in input_string:
             dice_to_roll.append("exit")
+            return dice_to_roll
         if "a" in input_string:
             dice_to_roll.append("a")
         if "b" in input_string:
             dice_to_roll.append("b")
         return dice_to_roll
 
-    def get_roll(self):
+    def get_roll(self, parsed_input):
         """
         need to ask user what dice they want to roll
         """
         still_rolling = True
         while still_rolling:
-            dice_to_roll = self.clean_input()
+            dice_to_roll = parsed_input
             # we leave this is a string, for exit condition.
             if "exit" in dice_to_roll:
                 # user typed exit, we throw game_over
                 self.game_over = True
                 return dice_to_roll
-            elif len(dice_to_roll) != 0 and \
-                    ("a" in dice_to_roll or "b" in dice_to_roll):
+            elif len(dice_to_roll) != 0 and len(dice_to_roll) <= 2:
                 still_rolling = False
         return dice_to_roll
 
@@ -151,13 +151,14 @@ class AngryDice:
         current_values = {self.current_dice_a_value,
                              self.current_dice_b_value}
         stage_complete_values = set(self.STAGE[self.current_stage])
-        # we are checking
-        if self.check_angry():
-            return
+
         # if the two sets are equivalent, we get are returned a list of len 0
         # thusly we've met stage exit criteria.
-        elif len(stage_complete_values ^ current_values) == 0:
+        if len(stage_complete_values ^ current_values) == 0:
             self.current_stage += 1
+            return self.current_stage
+        else:
+            return self.current_stage
 
     def check_angry(self):
         """
@@ -181,7 +182,7 @@ class AngryDice:
         """
         self.game_instructions()
         while not self.game_over:
-            to_roll = self.get_roll()
+            to_roll = self.get_roll(self.parse_input())
             attempted_cheat = False
             # check for holding on a non value allowed for stage, force roll
             if len(to_roll) != 2 and self.is_cheat(to_roll):
@@ -192,8 +193,9 @@ class AngryDice:
                     self.current_dice_a_value = self.dice_a.roll()
                 elif dice == "b":
                     self.current_dice_b_value = self.dice_b.roll()
+            if not self.check_angry():
+                self.check_roll()
 
-            self.check_roll()
             if self.current_stage == 4:
                 # we have a winner because we've incremented
                 # the current stage beyond the game
