@@ -24,7 +24,10 @@ class Monster:
         """
         :return: bool - True if Monster status is "In Tokyo"
         """
-        pass
+        if self.status == "In Tokyo":
+            return True
+        else:
+            return False
 
     def flee(self):
         """
