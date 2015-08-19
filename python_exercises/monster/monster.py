@@ -11,7 +11,7 @@ class Monster:
 
     def __init__(self, name):
         self.name = name
-        pass
+        self.status = "Out of Tokyo"
 
     def reset(self):
         """
