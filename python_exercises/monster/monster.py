@@ -48,6 +48,9 @@ class Monster:
         amount to heal, up to ten.
         :param heal_amount: int
         """
+
+        if not type(heal_amount) == int:
+            raise TypeError
         temp = self.health + heal_amount
         if temp >= 10:
             self.health = 10

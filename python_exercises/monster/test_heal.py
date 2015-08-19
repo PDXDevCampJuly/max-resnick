@@ -21,5 +21,17 @@ class MyTestCase(unittest.TestCase):
         self.test_monster.health = 2
         self.assertEqual(10, self.test_monster.heal(8))
 
+    def test_ideal_too_much_health(self):
+        """test adding too much health, with input that will keep at 10 and below"""
+        # we have an unhealthy monster
+        self.test_monster.health = 8
+        self.assertEqual(10, self.test_monster.heal(8))
+
+    def test_invalid_input_type(self):
+        """test trying to add a bad type."""
+        with self.assertRaises(TypeError):
+            self.test_monster.heal("something")
+
+
 if __name__ == '__main__':
     unittest.main()
