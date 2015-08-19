@@ -51,6 +51,7 @@ class Monster:
 
         if not type(heal_amount) == int:
             raise TypeError
+        # we use temp, so we don't have a temporary super health status.
         temp = self.health + heal_amount
         if temp >= 10:
             self.health = 10
@@ -64,7 +65,14 @@ class Monster:
         :param damage_amount: int
         :return: health: int: current health amount
         """
-        pass
+
+        if not type(damage_amount) == int:
+            raise TypeError
+
+        self.health -= damage_amount
+        if self.health <= 0:
+            self.status = "K.O.'d"
+        return self.health
 
     def score(self, points_scored):
         """
