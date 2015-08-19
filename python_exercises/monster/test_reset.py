@@ -33,7 +33,5 @@ class ResetTest(unittest.TestCase):
         """our name should be boogie monster"""
         self.assertEqual("The Boogie Monster", self.test_monster.name)
 
-
-
 if __name__ == '__main__':
     unittest.main()
