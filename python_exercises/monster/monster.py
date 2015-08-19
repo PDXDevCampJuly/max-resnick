@@ -31,7 +31,11 @@ class Monster:
         prompts monster to see if they want to flee Tokyo
         :return: bool True if to flee False if to stay
         """
-        pass
+        to_flee = input("Would you like to flee Tokyo? ").lower()
+        if to_flee == "y":
+            return True
+        else:
+            return False
 
     def heal(self, heal_amount):
         """
