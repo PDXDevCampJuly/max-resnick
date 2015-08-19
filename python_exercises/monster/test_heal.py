@@ -3,7 +3,9 @@ __author__ = 'Maxwell J. Resnick'
 import unittest
 
 from monster import Monster
-class MyTestCase(unittest.TestCase):
+
+
+class HealTest(unittest.TestCase):
 
     """Test Monster Class heal function"""
 
