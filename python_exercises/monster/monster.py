@@ -52,6 +52,9 @@ class Monster:
 
         if not type(heal_amount) == int:
             raise TypeError
+
+        if heal_amount <= 0:
+            raise ValueError
         # we use temp, so we don't have a temporary super health status.
         temp = self.health + heal_amount
         if temp >= 10:
