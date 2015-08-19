@@ -20,7 +20,7 @@ class Monster:
         resets Monster to initial stats
         :return: nothing
         """
-        pass
+        self.__init__(self.name)
 
     def in_tokyo(self):
         """
