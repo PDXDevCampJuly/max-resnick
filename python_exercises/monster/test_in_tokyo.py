@@ -29,5 +29,10 @@ class InTokyoTest(unittest.TestCase):
         self.test_monster.status = "H e double hockey sticks o"
         self.assertFalse(self.test_monster.in_tokyo())
 
+    def test_is_bad_type(self):
+        """check if return is false, when status is not the default or 'In Tokyo'"""
+        self.test_monster.status = ["H e double hockey sticks o"]
+        self.assertFalse(self.test_monster.in_tokyo())
+
 if __name__ == '__main__':
     unittest.main()
