@@ -48,7 +48,11 @@ class Monster:
         amount to heal, up to ten.
         :param heal_amount: int
         """
-        self.health += heal_amount
+        temp = self.health + heal_amount
+        if temp >= 10:
+            self.health = 10
+        else:
+            self.health = temp
         return self.health
 
     def attack(self, damage_amount):
