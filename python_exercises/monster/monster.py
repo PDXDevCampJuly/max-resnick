@@ -12,6 +12,7 @@ class Monster:
     def __init__(self, name):
         self.name = name
         self.status = "Out of Tokyo"
+        self.health = 10
 
     def reset(self):
         """
@@ -47,7 +48,8 @@ class Monster:
         amount to heal, up to ten.
         :param heal_amount: int
         """
-        pass
+        self.health += heal_amount
+        return self.health
 
     def attack(self, damage_amount):
         """
