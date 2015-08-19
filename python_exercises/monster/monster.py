@@ -13,6 +13,7 @@ class Monster:
         self.name = name
         self.status = "Out of Tokyo"
         self.health = 10
+        self.victory_points = 0
 
     def reset(self):
         """
@@ -77,7 +78,13 @@ class Monster:
     def score(self, points_scored):
         """
         add pass param to Monster's victory_points, and return victory pts
+        if VP >= 20, set status to 'WINNING'
         :param points_scored: int: score to be added
         :return: victory_points: int: new victory points
         """
-        pass
+        if not type(points_scored) == int:
+            raise TypeError
+        self.victory_points += points_scored
+        if self.victory_points >= 20:
+            self.status = "WINNING"
+        return self.victory_points
