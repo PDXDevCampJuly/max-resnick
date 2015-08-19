@@ -34,6 +34,9 @@ class HealTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.test_monster.heal("something")
 
+    def test_negative_healt(self):
+        """we should test for negative health catches"""
+        pass
 
 if __name__ == '__main__':
     unittest.main()
