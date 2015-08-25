@@ -15,7 +15,6 @@ class ResetTest(unittest.TestCase):
         self.test_monster.status = "waka"
         self.test_monster.victory_points = 2
         self.test_monster.reset()
-        self.test_monster.health = 5
 
     def test_health_status(self):
         """is our health 10"""

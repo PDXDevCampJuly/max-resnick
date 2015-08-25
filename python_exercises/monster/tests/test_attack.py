@@ -20,6 +20,11 @@ class AttackTest(unittest.TestCase):
         self.test_monster.attack(15)
         self.assertEqual("K.O.'d", self.test_monster.status)
 
+    def test_kod_attack_health(self):
+        """test kod attack"""
+        self.test_monster.attack(15)
+        self.assertEqual(-5, self.test_monster.health)
+
     def test_incorrect_type_attack(self):
         """test if we prevent bad types"""
         with self.assertRaises(TypeError):
