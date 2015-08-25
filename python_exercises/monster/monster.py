@@ -17,14 +17,17 @@ class Monster:
 
     def reset(self):
         """
-        resets Monster to initial stats
-        :return: nothing
+        Resets Monster to initial stats
+        Returns:
+            :return: n/a
         """
         self.__init__(self.name)
 
     def in_tokyo(self):
         """
-        :return: bool - True if Monster status is "In Tokyo"
+        Checks if the monster is within Tokyo e.g. status == "In Tokyo"
+        Returns:
+            :return: bool - True if Monster status is "In Tokyo"
         """
         if self.status == "In Tokyo":
             return True
@@ -33,8 +36,9 @@ class Monster:
 
     def flee(self):
         """
-        prompts monster to see if they want to flee Tokyo
-        :return: bool True if to flee False if to stay
+        Prompts monster to see if they want to flee Tokyo
+        Returns:
+            :return: bool True if to flee False if to stay in Tokyo
         """
         still_prompt = True
         while still_prompt:
@@ -46,8 +50,11 @@ class Monster:
 
     def heal(self, heal_amount):
         """
-        amount to heal, up to ten.
-        :param heal_amount: int
+        Amount to heal, up to ten.
+        Args:
+            :param heal_amount: int
+        Returns:
+            :raises: Type errir if param1 isn't a int
         """
 
         if not type(heal_amount) == int:
@@ -65,14 +72,16 @@ class Monster:
 
     def attack(self, damage_amount):
         """
-        sets status to "K.O.'d"
-        :param damage_amount: int
-        :return: health: int: current health amount
+        Sets status to "K.O.'d"
+        Args:
+            :param damage_amount: int
+        Returns:
+            :return: health: int: current health amount
+            :raises: Type errir if param1 isn't a int
         """
 
         if not type(damage_amount) == int:
             raise TypeError
-
         self.health -= damage_amount
         if self.health <= 0:
             self.status = "K.O.'d"
@@ -80,10 +89,13 @@ class Monster:
 
     def score(self, points_scored):
         """
-        add pass param to Monster's victory_points, and return victory pts
+        Add passed param to Monster's victory_points, and return victory pts
         if VP >= 20, set status to 'WINNING'
-        :param points_scored: int: score to be added
-        :return: victory_points: int: new victory points
+        Args:
+            :param points_scored: int: score to be added
+        Return:
+            :return: victory_points: int: new victory points
+            :raises: TypeError if param1 isn't a int
         """
         if not type(points_scored) == int:
             raise TypeError

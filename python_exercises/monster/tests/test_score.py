@@ -3,7 +3,7 @@ __author__ = 'Maxwell J. Resnick'
 import unittest
 from monster import Monster
 
-class ScoreTEst(unittest.TestCase):
+class ScoreTest(unittest.TestCase):
 
     """Test Monster Class score function"""
 
