@@ -1,8 +1,18 @@
 /**
  * Created by Maxwell J. Resnick on 8/27/15.
+ * Spec
+ * ====
+ * index
+ * -----
+ * Load an assortment of images not all 60
+ * image changes every 20 secs
  */
 
 function rotateAllTheThings() {
+    /*
+     * rotateAllTheThings
+     * @description changes the background on jumbotron every 20 secs.
+     */
     var jumbotron = document.getElementById('jumbotron');
     var currentImageIndex = 0;
     // we use anon function to handle swapping images.
@@ -23,12 +33,13 @@ function rotateAllTheThings() {
         currentImageIndex += 1;
     }, 20000); // Per spec need to rotate every 20 secs.
 }
-// First we need to select some images of the 60
+
 var rotatorImages = (function () {
    /*
     * rotatorImages
+    * @description  First we need to select some images of the 60
     * @returns [array] 6 image file paths
-    * Use an IIFY for fun, and we only need this list once, per page load.
+    * Using an IIFY for fun but also we only need this list once, per page load.
     */
     this.randomImages = [];
     for (var i=0; i<7; i++) {
@@ -49,5 +60,5 @@ var rotatorImages = (function () {
     return this.randomImages;
 }());
 
-// Wait for our page to load, then kick off rotator.
+// Event Binding
 window.addEventListener('load', rotateAllTheThings, false);
