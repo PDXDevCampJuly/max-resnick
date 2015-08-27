@@ -2,9 +2,8 @@
  * Created by Maxwell J. Resnick on 8/27/15.
  */
 
-// We need to swap for the next image.
 
-// We need to rotate every 20 secs.
+
 function rotateAllTheThings() {
     var jumbotron = document.getElementById('jumbotron');
     var currentImageIndex = 0;
@@ -19,11 +18,12 @@ function rotateAllTheThings() {
             // reset counter
             currentImageIndex = 0;
         } else {
+            // use our random list of images.
             jumbotron.style.backgroundImage = "url('" + rotatorImages[currentImageIndex] + "')";
         }
         // increase count
         currentImageIndex += 1;
-    },3000);
+    }, 20000); // Per spec need to rotate every 20 secs.
 }
 // First we need to select some images of the 60
 var rotatorImages = (function () {
@@ -53,9 +53,3 @@ var rotatorImages = (function () {
 
 // Wait for our page to load, then kick of rotator.
 window.addEventListener('load', rotateAllTheThings, false);
-
-
-/*    function() {
-    console.log("I am here.");
-    this.rotateAllTheThings(e.target);
-}, false);*/
