@@ -2,8 +2,6 @@
  * Created by Maxwell J. Resnick on 8/27/15.
  */
 
-
-
 function rotateAllTheThings() {
     var jumbotron = document.getElementById('jumbotron');
     var currentImageIndex = 0;
@@ -51,5 +49,5 @@ var rotatorImages = (function () {
     return this.randomImages;
 }());
 
-// Wait for our page to load, then kick of rotator.
+// Wait for our page to load, then kick off rotator.
 window.addEventListener('load', rotateAllTheThings, false);
