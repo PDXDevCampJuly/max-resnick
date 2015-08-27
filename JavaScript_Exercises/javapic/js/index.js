@@ -2,21 +2,36 @@
  * Created by Maxwell J. Resnick on 8/27/15.
  */
 
+// We need to swap for the next image.
 
-
-// First we need to select some images of the 60
-
-// We need to paint the page with the images
-
-// We need to rotate.
-
-// Use an IIFY for fun, and we only need this list once.
-
-
-
+// We need to rotate every 20 secs.
+function rotateAllTheThings() {
+    // we use anon function to handle swapping images.
+    var jumbotron = document.getElementById('jumbotron');
+    var currentImageIndex;
+    var count = 0;
+    setInterval(function () {
+        if (count === 7) {
+           /* we've reached the end, reset to the original image.
+            * we set to "" because the image is really set in CSS, and we're
+            * inline style.
+            */
+            jumbotron.style.backgroundImage = "";
+            // reset counter
+            count = 0;
+        } else {
+            jumbotron.style.backgroundImage = "url('" + rotatorImages[count] + "')";
+        }
+        // increase count
+        count += 1;
+    },3000);
+}
+    // First we need to select some images of the 60
 var rotatorImages = (function () {
    /*
-    * rotatorImages - an array of 6 image files
+    * rotatorImages
+    * @returns [array] 6 image file paths
+    * Use an IIFY for fun, and we only need this list once.
     */
     this.randomImages = [];
     for (var i=0; i<7; i++) {
@@ -36,3 +51,12 @@ var rotatorImages = (function () {
     }
     return this.randomImages;
 }());
+
+// Wait for our page to load, then kick of rotator.
+window.addEventListener('load', rotateAllTheThings, false);
+
+
+/*    function() {
+    console.log("I am here.");
+    this.rotateAllTheThings(e.target);
+}, false);*/
