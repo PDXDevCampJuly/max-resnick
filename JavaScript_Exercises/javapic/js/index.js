@@ -6,32 +6,31 @@
 
 // We need to rotate every 20 secs.
 function rotateAllTheThings() {
-    // we use anon function to handle swapping images.
     var jumbotron = document.getElementById('jumbotron');
-    var currentImageIndex;
-    var count = 0;
+    var currentImageIndex = 0;
+    // we use anon function to handle swapping images.
     setInterval(function () {
-        if (count === 7) {
+        if (currentImageIndex === 7) {
            /* we've reached the end, reset to the original image.
             * we set to "" because the image is really set in CSS, and we're
             * inline style.
             */
             jumbotron.style.backgroundImage = "";
             // reset counter
-            count = 0;
+            currentImageIndex = 0;
         } else {
-            jumbotron.style.backgroundImage = "url('" + rotatorImages[count] + "')";
+            jumbotron.style.backgroundImage = "url('" + rotatorImages[currentImageIndex] + "')";
         }
         // increase count
-        count += 1;
+        currentImageIndex += 1;
     },3000);
 }
-    // First we need to select some images of the 60
+// First we need to select some images of the 60
 var rotatorImages = (function () {
    /*
     * rotatorImages
     * @returns [array] 6 image file paths
-    * Use an IIFY for fun, and we only need this list once.
+    * Use an IIFY for fun, and we only need this list once, per page load.
     */
     this.randomImages = [];
     for (var i=0; i<7; i++) {
