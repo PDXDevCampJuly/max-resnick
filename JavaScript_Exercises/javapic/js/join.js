@@ -46,6 +46,7 @@ function assertMessage (target, message) {
 }
 
 function checkFields(targets) {
+    // TODO multiple errors don't render, unsure why.
     this.fieldsToValidate = targets;
     for (var i=0; i < this.fieldsToValidate.length; i++) {
         if (this.fieldsToValidate[i].getAttribute('name') === 'name') {
@@ -141,7 +142,6 @@ function validateForm(target, fullForm) {
     this.sheet.insertRule(this.errorStyle, 0);
 }());
 
-// TODO disable submit until all fields are valid, but this requires, maintaining a valid fields array... much more work.
 // Event Binding
 var form = document.getElementById('signup');
 form.addEventListener('change', function(e){
