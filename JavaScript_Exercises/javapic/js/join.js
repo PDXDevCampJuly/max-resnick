@@ -7,21 +7,13 @@
  * validate email
  * allow to submission, and redirect to the next page
  */
-/*style="
-    background-color: tomato;
-    color: #fff;
-    size: .75em;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-"*/
+// Fugly Global
+var validData = new Array();
 
 function register() {
-    // nothing to see here, move along.
-    localStorage.setItem('javapic', "user:" + validData.username);
-    this.form = document.getElementById('signup');
-    this.form.method = "GET";
-    this.form.action = "gallery.html";
+    // nothing to see here, move along. perhaps we were to use query strings?
+    localStorage.setItem('javapic', validData.username);
+    location.href = "gallery.html";
 }
 
 function tearDownError(target) {
@@ -48,8 +40,8 @@ function assertMessage (target, message) {
         newMessageBlock.setAttribute('id', messageID);
         var messageText = document.createTextNode(this.message);
         newMessageBlock.appendChild(messageText);
+        newMessageBlock.className = "error";
         this.target.parentNode.insertBefore(newMessageBlock, this.target.nextSibling);
-        // TODO add styles from comment above, holding due to time constraints.
     }
 }
 
@@ -93,7 +85,7 @@ function checkFields(targets) {
             // REGEX
             var username = /^[a-zA-Z]+[\w\.][a-zA-Z0-9]$/
                 .test(this.fieldsToValidate[i].value);
-            if (!username) {
+            if (!username || this.fieldsToValidate[i].length === 0) {
                 this.errorMessage = "A username must start with a char, may only contain _ and . and digits";
                 assertMessage(this.fieldsToValidate[i], this.errorMessage);
                 return false;
@@ -103,7 +95,7 @@ function checkFields(targets) {
             }
         }
     }
-    // For everything that's valid.
+    // zomg we've made it here, we have a valid form.
     return true;
 }
 function validateForm(target, fullForm) {
@@ -124,16 +116,38 @@ function validateForm(target, fullForm) {
     }
     // now if we have a fully valid form, we pass off.
     if (this.isValid && this.fullForm) {
+
         register(this.userName);
     }
+    else if (this.fullForm) {
+
+    }
+
 }
+
+
+(function (){
+    /*
+     * @description hack Tiffany's CSS since she gave us no error handling love.
+     */
+    this.sheet = document.styleSheets[0];
+    this.errorStyle = (".error {" +
+                       "background-color: tomato;" +
+                       "color: #fff;" +
+                       "size: .75em;" +
+                       "padding: 10px;" +
+                       "margin: 10px;" +
+                       "border-radius: 5px; }");
+    this.sheet.insertRule(this.errorStyle, 0);
+}());
+
 // TODO disable submit until all fields are valid, but this requires, maintaining a valid fields array... much more work.
 // Event Binding
-var validData = new Array();
 var form = document.getElementById('signup');
 form.addEventListener('change', function(e){
     validateForm(e, false);
 });
 form.addEventListener('submit', function(e){
+    e.preventDefault();
     validateForm(e, true);
 });

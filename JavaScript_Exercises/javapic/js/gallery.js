@@ -7,7 +7,7 @@ var anAnnoyingModal = document.getElementById('image_show');
 
 function modalClick(target) {
     this.target = target;
-    // user click outside of the modal, because our target is the div.
+    // user clicked outside of the modal, because our target is the div.
     if (this.target.id === 'image_show') {
         this.target.className = "display_none";
     }
