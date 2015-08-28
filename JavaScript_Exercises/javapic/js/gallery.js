@@ -1,21 +1,27 @@
 /**
  * Created by Maxwell J. Resnick on 8/28/15.
  */
-// Globals
+// Globals - ewww
 var gallery = document.getElementById('gallery');
-var isAnAnnoyingModal = document.getElementById('image_show');
+var anAnnoyingModal = document.getElementById('image_show');
+
+function modalClick(target) {
+    this.target = target;
+    // user click outside of the modal, because our target is the div.
+    if (this.target.id === 'image_show') {
+        this.target.className = "display_none";
+    }
+}
 
 function galleryClick(target) {
     this.target = target.getAttribute('src');
-    console.log(target);
-    this.isAnAnnoyingModal = document.getElementById('image_show');
-    this.oldImage = this.isAnAnnoyingModal.getElementsByTagName('img')[0];
-    this.isAnAnnoyingModal.removeChild(this.oldImage);
+    this.oldImage = anAnnoyingModal.getElementsByTagName('img')[0];
+    anAnnoyingModal.removeChild(this.oldImage);
     this.newImage = document.createElement('img');
     this.newImage.setAttribute('src', this.target);
-    this.isAnAnnoyingModal.appendChild(this.newImage);
+    anAnnoyingModal.appendChild(this.newImage);
     // one will never misspell this again.
-    this.isAnAnnoyingModal.className = 'display_img';
+    anAnnoyingModal.className = 'display_img';
 }
 
 // One Time Page Creation Stuffs
@@ -67,6 +73,9 @@ var setUserName = (function (){
     this.tagline.textContent = "develop something beautiful " + this.username;
 }());
 
+anAnnoyingModal.addEventListener('click', function(e){
+    modalClick(e.target);
+});
 // Event Handlers
 gallery.addEventListener('click', function(e){
    galleryClick(e.target);
