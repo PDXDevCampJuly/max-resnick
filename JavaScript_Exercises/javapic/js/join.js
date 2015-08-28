@@ -7,7 +7,24 @@
  * validate email
  * allow to submission, and redirect to the next page
  */
+/*style="
+    background-color: tomato;
+    color: #fff;
+    size: .75em;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+"*/
 
+function tearDownError(target) {
+    this.target = target;
+    var messageID = this.target.getAttribute('name') + "error";
+    var messageToTear = document.getElementById(messageID);
+    // check for existing error message
+    if (messageToTear !== null){
+        messageToTear.parentNode.removeChild(messageToTear);
+    }
+}
 
 function assertMessage (target, message) {
     /*
@@ -16,11 +33,16 @@ function assertMessage (target, message) {
      */
     this.target = target;
     this.message = message;
-
-    var newMessageBlock = document.createElement('div');
-    var messageText = document.createTextNode(this.message);
-    newMessageBlock.appendChild(messageText);
-    this.target.parentNode.insertBefore(newMessageBlock, this.target.nextSibling);
+    var messageID = this.target.getAttribute('name') + "error";
+    // check for existing error message
+    if (document.getElementById(messageID) === null){
+        var newMessageBlock = document.createElement('div');
+        newMessageBlock.setAttribute('id', messageID);
+        var messageText = document.createTextNode(this.message);
+        newMessageBlock.appendChild(messageText);
+        this.target.parentNode.insertBefore(newMessageBlock, this.target.nextSibling);
+        // TODO add styles from comment above, holding due to time constraints.
+    }
 }
 function checkFields(targets) {
     this.fieldsToValidate = targets;
@@ -35,6 +57,7 @@ function checkFields(targets) {
                 assertMessage(this.fieldsToValidate[i], this.errorMessage);
                 return false;
             } else if (name) {
+                tearDownError(this.fieldsToValidate[i]);
                 return true;
             }
         }
