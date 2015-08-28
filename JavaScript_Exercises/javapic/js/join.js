@@ -16,6 +16,14 @@
     border-radius: 5px;
 "*/
 
+function register() {
+    // nothing to see here, move along.
+    localStorage.setItem('javapic', "user:" + validData.username);
+    this.form = document.getElementById('signup');
+    this.form.method = "GET";
+    this.form.action = "gallery.html";
+}
+
 function tearDownError(target) {
     this.target = target;
     var messageID = this.target.getAttribute('name') + "error";
@@ -44,6 +52,7 @@ function assertMessage (target, message) {
         // TODO add styles from comment above, holding due to time constraints.
     }
 }
+
 function checkFields(targets) {
     this.fieldsToValidate = targets;
     for (var i=0; i < this.fieldsToValidate.length; i++) {
@@ -58,7 +67,7 @@ function checkFields(targets) {
                 return false;
             } else if (name) {
                 tearDownError(this.fieldsToValidate[i]);
-                return true;
+                validData["name"] = this.fieldsToValidate[i].value;
             }
         }
         else if (this.fieldsToValidate[i].getAttribute('name') === 'email') {
@@ -71,10 +80,12 @@ function checkFields(targets) {
             var email = /^[a-zA-Z]+[\w\._+]+@([^\.]\w*\.)*[a-zA-Z]*[a-zA-Z]$/
                 .test(this.fieldsToValidate[i].value);
             if (!email) {
-                // TODO add html div with error message.
+                this.errorMessage = "A email must be waka@waka.com";
+                assertMessage(this.fieldsToValidate[i], this.errorMessage);
                 return false;
             } else if (email) {
-                return true;
+                tearDownError(this.fieldsToValidate[i]);
+                validData["email"] = this.fieldsToValidate[i].value;
             }
 
         }
@@ -83,13 +94,17 @@ function checkFields(targets) {
             var username = /^[a-zA-Z]+[\w\.][a-zA-Z0-9]$/
                 .test(this.fieldsToValidate[i].value);
             if (!username) {
-                // TODO add html div with error message.
+                this.errorMessage = "A username must start with a char, may only contain _ and . and digits";
+                assertMessage(this.fieldsToValidate[i], this.errorMessage);
                 return false;
             } else if (username){
-                return true;
+                tearDownError(this.fieldsToValidate[i]);
+                validData["username"] = this.fieldsToValidate[i].value;
             }
         }
     }
+    // For everything that's valid.
+    return true;
 }
 function validateForm(target, fullForm) {
     /*
@@ -107,10 +122,14 @@ function validateForm(target, fullForm) {
         // we don't set this.isValid b.c. we don't care if a field is validated, that's just for UX.
         checkFields(this.toValidate);
     }
-    console.log(this.isValid);
+    // now if we have a fully valid form, we pass off.
+    if (this.isValid && this.fullForm) {
+        register(this.userName);
+    }
 }
 // TODO disable submit until all fields are valid, but this requires, maintaining a valid fields array... much more work.
 // Event Binding
+var validData = new Array();
 var form = document.getElementById('signup');
 form.addEventListener('change', function(e){
     validateForm(e, false);
