@@ -7,7 +7,7 @@
  * validate email
  * allow to submission, and redirect to the next page
  */
-// Fugly Global
+// Fugly Global, this could be a possibly
 var validData = new Array();
 
 function register() {
@@ -45,8 +45,35 @@ function assertMessage (target, message) {
     }
 }
 
+function validateForm(target, fullForm) {
+    /*
+     * @description validates form
+     */
+    this.fieldsToValidate = target;
+    this.fullForm = fullForm;
+    this.submitButton = document.querySelector('#submit');
+    if (this.fullForm) {
+        // get array of fields to validate
+        this.toValidate = this.fieldsToValidate.target.getElementsByTagName('input');
+        this.isValid = checkFields(this.toValidate);
+    }
+    else {
+        this.toValidate = [this.fieldsToValidate.target];
+        // we don't set this.isValid b.c. we don't care if a field is validated, that's just for UX.
+        checkFields(this.toValidate);
+    }
+    // now if we have a fully valid form, we pass off.
+    if (this.isValid && this.fullForm) {
+        tearDownError(this.submitButton);
+        register(validData.username);
+    }
+
+    else if (this.fullForm) {
+        this.submitError = "Please correct the errors shown above.";
+        assertMessage(this.submitButton, this.submitError);
+    }
+}
 function checkFields(targets) {
-    // TODO multiple errors don't render, unsure why.
     this.fieldsToValidate = targets;
     for (var i=0; i < this.fieldsToValidate.length; i++) {
         if (this.fieldsToValidate[i].getAttribute('name') === 'name') {
@@ -54,8 +81,8 @@ function checkFields(targets) {
             var name = /^[a-zA-Z]+[a-zA-Z ]+[a-zA-Z]$/
                 .test(this.fieldsToValidate[i].value);
             // Going to explicitly test for true and false. What if it's all janky?
-            if (!name) {
-               this.errorMessage = "The name field must only contain Alphabet characters";
+            if (!name || this.fieldsToValidate[i].length === 0) {
+                this.errorMessage = "The name field must only contain Alphabet characters";
                 assertMessage(this.fieldsToValidate[i], this.errorMessage);
                 return false;
             } else if (name) {
@@ -72,7 +99,7 @@ function checkFields(targets) {
              */
             var email = /^[a-zA-Z]+[\w\._+]+@([^\.]\w*\.)*[a-zA-Z]*[a-zA-Z]$/
                 .test(this.fieldsToValidate[i].value);
-            if (!email) {
+            if (!email || this.fieldsToValidate[i].length === 0) {
                 this.errorMessage = "A email must be waka@waka.com";
                 assertMessage(this.fieldsToValidate[i], this.errorMessage);
                 return false;
@@ -84,7 +111,7 @@ function checkFields(targets) {
         }
         else if (this.fieldsToValidate[i].getAttribute('name') === 'username') {
             // REGEX
-            var username = /^[a-zA-Z]+[\w\.][a-zA-Z0-9]$/
+            var username = /^[a-zA-Z]+[\w\.][a-zA-Z0-9]+$/
                 .test(this.fieldsToValidate[i].value);
             if (!username || this.fieldsToValidate[i].length === 0) {
                 this.errorMessage = "A username must start with a char, may only contain _ and . and digits";
@@ -98,32 +125,6 @@ function checkFields(targets) {
     }
     // zomg we've made it here, we have a valid form.
     return true;
-}
-function validateForm(target, fullForm) {
-    /*
-     * @description validates form
-     */
-    this.fieldsToValidate = target;
-    this.fullForm = fullForm;
-    if (this.fullForm) {
-        // get array of fields to validatem, cut the last once it's just the input button.
-        this.toValidate = this.fieldsToValidate.target.getElementsByTagName('input');
-        this.isValid = checkFields(this.toValidate);
-    }
-    else {
-        this.toValidate = [this.fieldsToValidate.target];
-        // we don't set this.isValid b.c. we don't care if a field is validated, that's just for UX.
-        checkFields(this.toValidate);
-    }
-    // now if we have a fully valid form, we pass off.
-    if (this.isValid && this.fullForm) {
-
-        register(this.userName);
-    }
-    else if (this.fullForm) {
-
-    }
-
 }
 
 
