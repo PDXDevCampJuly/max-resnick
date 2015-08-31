@@ -13,6 +13,7 @@ var validData = new Array();
 function register() {
     // nothing to see here, move along. perhaps we were to use query strings?
     localStorage.setItem('javapic', validData.username);
+    // redirect!
     location.href = "gallery.html";
 }
 
@@ -149,6 +150,7 @@ form.addEventListener('change', function(e){
     validateForm(e, false);
 });
 form.addEventListener('submit', function(e){
+    // Stop the form from actually submitting.
     e.preventDefault();
     validateForm(e, true);
 });
