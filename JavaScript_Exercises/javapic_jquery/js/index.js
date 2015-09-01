@@ -5,7 +5,7 @@
 
 // Overkill for this assignment
 var $jQ = jQuery.noConflict();
-$jQ(document).ready(function(){
+$jQ(document).ready(function () {
 
     // Our array of images.
     var rotatorImages = (function () {
