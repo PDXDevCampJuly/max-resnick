@@ -12,8 +12,8 @@ $jQ(document).ready(function () {
     /*
      * @description rotate all the things.
      */
-    this.$origJummbotronImage = $jQ('#jumbotron').css('background-image');
     var $jumbotron = $jQ('#jumbotron');
+    this.$origJummbotronImage = $jumbotron.css('background-image');
     rotatorImages.push($origJummbotronImage);
     var currentImageIndex = 0;
     setInterval(function() {
