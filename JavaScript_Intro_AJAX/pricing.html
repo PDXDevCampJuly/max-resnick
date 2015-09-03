@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Construction Pricing</title>
+    <link rel="stylesheet" href="css/red_test.css" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+</head>
+<body>
+    <main>
+        <h1>Materials for Sale</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" onclick="checkAll(this);"/> </th>
+                    <th>Material</th>
+                    <th>Price</th>
+                    <th>In Stock</th>
+                </tr>
+            </thead>
+            <tbody id="inventory">
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="text" id="material" />
+                    </td>
+                    <td>
+                        <input type="text" id="price" />
+                    </td>
+                    <td>
+                        <button onclick="addNewStock();">Add New Stock</button>
+                    </td>
+                </tr>
+
+            </tfoot>
+        </table>
+        <div id="error"></div>
+        <button onclick="addStock();">Add Stock</button>
+        <button onclick="removeStock();">Remove Stock</button>
+
+    </main>
+<script type="text/javascript" src="js/ajax.intro.js"></script>
+<script type="text/javascript" src="js/direct_checkbox.js"></script>
+</body>
+</html>
