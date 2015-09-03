@@ -10,16 +10,24 @@ function displayModal($target) {
      */
     $modal.children().replaceWith($target.clone());
     // Meglo chain
-    $modal.toggleClass('display_none', false).toggleClass('display_img')
+    $modal
+        .toggleClass('display_none', false)
+        .toggleClass('display_img')
         .on("click", function (e) {
+            /*
+             * @description event bind to modal only happens with it's on the page.
+             */
             if ($jQ(e.target).is($modal)) {
-                $modal.toggleClass('display_img', false).toggleClass('display_none').off();
+                $modal
+                    .toggleClass('display_img', false)
+                    .toggleClass('display_none')
+                    .off();
             };
         });
 }
 (function (){
     /*
-     * @description "paint" html all over the place w/ out images.
+     * @description "paint" html all over the place w/ our images.
      */
     // <li><img src="images/pdxcg_01.jpg" /></li>
     var $section = $jQ('#gallery');
@@ -32,7 +40,7 @@ function displayModal($target) {
 
 (function (){
     /*
-     * @description we set our username if logged in and forget it.
+     * @description we set our username if logged in and if they aren't, redirect.
      */
     var username = sessionStorage.getItem('javapic');
     if (username !== null || username !== undefined) {
@@ -44,8 +52,10 @@ function displayModal($target) {
 }());
 
 // Event Binding
-
 $jQ("#gallery").on("click","img", function(e){
+        /*
+         * @description listen for a click on a thumbnail
+         */
         displayModal($jQ(e.target));
     }
 );
