@@ -5,87 +5,97 @@
 var $jQ = jQuery.noConflict();
 
 var form = {
+    /*
+     * @description form validation obj.
+     */
     name: function (name) {
-        this.isValid = /^([a-zA-Z]+)$/
+        var isValid = /^([a-zA-Z]+)$/
             .test(name);
         this.errorMessage = "Your name must be chars only.";
-        if (!this.isValid) {
-            form.errors["name"] = this.errorMessage;
-            form.validFields["name"] = false;
+        if (!isValid) {
+            this.errors["name"] = this.errorMessage;
+            this.validFields["name"] = false;
         } else {
-            form.errors["name"] = false;
-            form.validFields["name"] = true;
+            this.errors["name"] = false;
+            this.validFields["name"] = true;
         }
-        return this.isValid;
+        return isValid;
     },
     username: function (username) {
-        this.isValid = /^[a-zA-Z]+[\w\.][a-zA-Z0-9]+$/
+        var isValid = /^[a-zA-Z]+[\w\.][a-zA-Z0-9]+$/
             .test(username);
         this.errorMessage = "Your name must be number, chars, and _ only.";
-        if (!this.isValid) {
-            form.errors["username"] = this.errorMessage;
-            form.validFields["username"] = false;
+        if (!isValid) {
+            this.errors["username"] = this.errorMessage;
+            this.validFields["username"] = false;
         } else {
-            form.errors["username"] = false;
-            form.validFields["username"] = true;
+            this.errors["username"] = false;
+            this.validFields["username"] = true;
         }
-        return this.isValid;
+        return isValid;
     },
     email: function (email) {
-        this.isValid = /^[a-zA-Z]+[\w\._+]+@([^\.]\w*\.)*[a-zA-Z]*[a-zA-Z]$/
+        var isValid = /^[a-zA-Z]+[\w\._+]+@([^\.]\w*\.)*[a-zA-Z]*[a-zA-Z]$/
             .test(email);
         this.error = "You must have a valid email address.";
-        if (!this.isValid) {
-            form.errors["email"] = this.errorMessage;
-            form.validFields["email"] = false;
+        if (!isValid) {
+            this.errors["email"] = this.errorMessage;
+            this.validFields["email"] = false;
         } else {
-            form.errors["email"] = false;
-            form.validFields["email"] = true;
+            this.errors["email"] = false;
+            this.validFields["email"] = true;
         }
-        return this.isValid;
-    },
-    validFields: {
-        name: false,
-        username: false,
-        email : false
-    },
-    errors: {
-        name: false,
-        username: false,
-        email : false
+        return isValid;
     },
     isValid: function () {
-        var hasInvalid;
         // check for false to be in our validFields obj.
-        $jQ.each(form.validFields, function(index, value) {
+        var hasInvalid = false;
+        var potentialValidData = {};
+        $jQ.each(this.validFields, function (index, value) {
+            potentialValidData[index] = $;
             if (!value) {
                 hasInvalid = true;
             }
         });
         // flip logic, because were checking for the existence, of false.
-        return (hasInvalid ? false : true);
+        return !hasInvalid;
     },
+    validFields: { name: false, username: false, email : false },
+    errors: { name: false, username: false, email : false },
 };
 
 function formHandler($e) {
+    /*
+     * @description
+     */
     $e.each(function () {
         if (!form[this.name](this.value)) {
-            $jQ(this).after(function () {
-                    return '<div class="error">' + form.errors[this.name] + '</div>';
+            // only add if div doesn't exist.
+            if (!$jQ(this).next().attr('class')) {
+                $jQ(this).after(function () {
+                        return '<div class="error">' + form.errors[this.name] + '</div>';
                 });
+            }
         } else {
             $jQ(this).next('.error').remove();
         }
     });
     // validation over.
-    console.log(form.isValid());
+
 };
+
+function register(toCheck) {
+    formHandler(toCheck);
+    if (form.isValid()){
+        sessionStorage.setItem('javapic', $jQ("[name='username']").val());
+        location.href = 'gallery.html';
+    }
+}
 
 (function () {
     /*
-     * @description make my error class.
+     * @description make my error css class.
      */
-
     this.sheet = document.styleSheets[0];
     this.errorStyle = (".error {" +
                        "background-color: tomato;" +
@@ -104,7 +114,7 @@ $jQ(function () {
         'submit': function(e){
             e.preventDefault();
             var toCheck = $jQ(e.target).children('input').not("#submit");
-            formHandler(toCheck);
+            register(toCheck);
         },
         'change': function(e){
             var toCheck = $jQ(e.target);
