@@ -87,7 +87,7 @@ function addNewStock() {
     document.getElementById('price').value = "";
 }
 
-function populateInventoryBad() {
+/*function populateInventoryBad() {
     var fullInventory = "";
 
     for (var i = 0; i < products.length; i++) {
@@ -111,7 +111,7 @@ function populateInventoryBad() {
             }
         }
     }
-}
+}*/
 
 function populateInventory(){
 
@@ -139,7 +139,7 @@ function populateInventory(){
         // Stock Column
         var stockCol = document.createElement('td');
         stockCol.className = products[i].inStock();
-        var stockText = document.createElement(products[i].stock);
+        var stockText = document.createTextNode(products[i].stock);
         stockCol.appendChild(stockText);
         newProdRow.appendChild(stockCol);
 
@@ -147,7 +147,3 @@ function populateInventory(){
     }
 
 }
-
-// Init Material & Add initialized row.
-products.push(new Product('wood', 10, 15));
-populateInventory();
