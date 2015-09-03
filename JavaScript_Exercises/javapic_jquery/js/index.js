@@ -2,10 +2,8 @@
  * Javapic utilizing Jquery
  */
 
-var rotatorImages = new javapicImages().randomImages;
+var rotatorImages = new javapicImages(true).randomImages;
 
-// Overkill for this assignment
-var $jQ = jQuery.noConflict();
 $jQ(document).ready(function () {
     console.log(javapicImages.allImages);
     // Our array of images.
@@ -23,6 +21,6 @@ $jQ(document).ready(function () {
             $jumbotron.css('background-image', rotatorImages[currentImageIndex]);
             // increase count
             currentImageIndex += 1;
-            }, 5000);
+            }, 20000);
     }());
 });
