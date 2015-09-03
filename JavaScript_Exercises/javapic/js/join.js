@@ -12,7 +12,7 @@ var validData = new Array();
 
 function register() {
     // nothing to see here, move along. perhaps we were to use query strings?
-    localStorage.setItem('javapic', validData.username);
+    sessionStorage.setItem('javapic', validData.username);
     // redirect!
     location.href = "gallery.html";
 }
@@ -63,7 +63,7 @@ function validateForm(target, fullForm) {
         // we don't set this.isValid b.c. we don't care if a field is validated, that's just for UX.
         checkFields(this.toValidate);
     }
-    // now if we have a fully valid form, we pass off.
+    // now if we have a fully isValid form, we pass off.
     if (this.isValid && this.fullForm) {
         tearDownError(this.submitButton);
         register(validData.username);
@@ -74,6 +74,7 @@ function validateForm(target, fullForm) {
         assertMessage(this.submitButton, this.submitError);
     }
 }
+
 function checkFields(targets) {
     this.fieldsToValidate = targets;
     for (var i=0; i < this.fieldsToValidate.length; i++) {
@@ -94,7 +95,7 @@ function checkFields(targets) {
         else if (this.fieldsToValidate[i].getAttribute('name') === 'email') {
             /*
              * ^[a-zA-Z] - email usernamesstart w/ alpha only
-             * [\w\._+] any alphanumeric but also "." "_" "+" are valid specials for usernames.
+             * [\w\._+] any alphanumeric but also "." "_" "+" are isValid specials for usernames.
              * must be a @
              * any number of domains, subdomains as long as we end with a char.
              */
@@ -124,7 +125,7 @@ function checkFields(targets) {
             }
         }
     }
-    // zomg we've made it here, we have a valid form.
+    // zomg we've made it here, we have a isValid form.
     return true;
 }
 

@@ -69,7 +69,7 @@ var setUserName = (function (){
      * @description we set our username once, and forget it.
      */
     this.tagline = document.getElementsByClassName('tagline')[0];
-    this.username = localStorage.getItem('javapic');
+    this.username = sessionStorage.getItem('javapic');
     this.tagline.textContent = "develop something beautiful " + this.username;
 }());
 
