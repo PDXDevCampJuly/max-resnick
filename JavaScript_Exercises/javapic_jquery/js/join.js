@@ -1,8 +1,6 @@
 /**
  * Created by Maxwell J. Resnick on 9/1/15.
  */
-// Overkill for this assignment
-var $jQ = jQuery.noConflict();
 
 var form = {
     /*
@@ -85,10 +83,16 @@ function formHandler($e) {
 };
 
 function register(toCheck) {
+    /*
+     * @description validate form && set session.
+     */
     formHandler(toCheck);
     if (form.isValid()){
         sessionStorage.setItem('javapic', $jQ("[name='username']").val());
         location.href = 'gallery.html';
+    }
+    else {
+        $jQ('.error').fadeOut("fast").fadeIn("fast");
     }
 }
 
