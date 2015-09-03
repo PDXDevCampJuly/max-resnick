@@ -41,4 +41,4 @@ function javapicImages () {
                     }
                     return this.images;
         }());
-};
+}
