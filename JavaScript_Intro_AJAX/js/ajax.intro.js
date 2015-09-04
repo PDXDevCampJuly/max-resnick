@@ -3,7 +3,20 @@
  */
 var $jQ = new jQuery.noConflict();
 
-function processData(data) {
+function processJSONData (data) {
+    if ("item" in data.inventory) {
+        $jQ.each(data.inventory.item, function () {
+            var $newItem = this;
+            products.push(new Product($newItem.name,
+                                      $newItem.price,
+                                      $newItem.numInStock));
+            });
+        populateInventory();
+    }
+}
+
+
+function processXMLData(data) {
     var $ourData = $jQ(data);
     $ourData.find('item').each(
         function () {
@@ -13,19 +26,31 @@ function processData(data) {
                                 $newItem.children('numInStock').text()));
         }
     );
-    // Init Material & Add initialized row.
+    // Init Material
     populateInventory();
 }
 
 (function () {
     /*
-     * @description loads an xml file.
+     * @description loads the xml or json file.
      */
+    var isJSON, fileURL;
+    if (Math.random() < .5) {
+        isJSON = true;
+        fileURL = "data/inventory.json";
+    } else {
+        isJSON = false;
+        fileURL = "data/inventory.xml";
+    }
     $jQ.ajax({
             type: "GET",
-            url: "data/inventory.xml",
+            url: fileURL,
             success: function (data) {
-                processData(data);
+                if (isJSON) {
+                    processJSONData(data);
+                } else {
+                    processXMLData(data);
+                }
             },
             statusCode: {
                 404: function () {
