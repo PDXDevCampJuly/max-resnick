@@ -4,10 +4,14 @@
  */
 
 
-function grr (data) { console.log("the string:");}
-// Load noconflict version
+// Load no conflict version
 var $jQ = jQuery.noConflict();
+var posts = []; // all our posts.
+
 var httpService = {
+    /*
+     * @description return a HTTP request as a promise
+     */
         "get": function () {
             return $jQ.ajax({
                 type: "GET",
@@ -19,7 +23,7 @@ var httpService = {
              var _data = {
                 entry_434124687: title,
                 entry_1823097801: body,
-             }
+             };
              return $jQ.ajax({
                 type: "POST",
                 url: "https://docs.google.com/forms/d/1blH7mM6udvlyJ0SrPmbXoNPZg8XCqDQaxHTPrK0HQbA/formResponse",
@@ -29,10 +33,38 @@ var httpService = {
             }
         };
 
-function addPost (postTitle, postBody) {
-    var $lastPost = $jQ('.post');
-    var forumPost = ('<div class="post"><h2>' +
-                    postTitle + '</h2><p>' +
-                    postBody + '</p></div>');
-    $lastPost.last().after("<h2>stuff</h2>");
+function forumPost (postTitle, postBody) {
+    /*
+     * @description object handles a single forum post.
+     */
+    this.postTitle = postTitle;
+    this.postBody = postBody;
+    this.newPost = (function () {
+                     var thepost = ('<div class="post"><h2>' +
+                                        postTitle + '</h2><p>' +
+                                        postBody + '</p></div>');
+                     $jQ('.post').last().after(thepost);
+                    }());
+
 }
+
+function loadPosts(data) {
+    /*
+     * @param [array] posts to add.
+     * @description creates new forumPost object given an array of posts.
+     */
+    data.forEach(function(entry){
+        posts.push(new forumPost(entry.gsx$posttitle.$t, entry.gsx$postbody.$t));
+
+    });
+}
+
+(function () {
+    /*
+     * @description load all posts on a page load.
+     */
+    httpService.get().then(function(data) {
+        loadPosts(data.feed.entry);
+    });
+
+}());
