@@ -8,6 +8,8 @@
 var $jQ = jQuery.noConflict();
 var posts = []; // all our posts.
 
+
+
 var httpService = {
     /*
      * @description return a HTTP request as a promise
@@ -58,6 +60,49 @@ function loadPosts(data) {
 
     });
 }
+
+function formHandler() {
+    /*
+     * @description determine if new post is valid, if so post to google docs.
+     */
+    var isValid = true;
+    var $inputFields = $jQ('#post-body, #post-title');
+    $inputFields.each(function(index, field) {
+        // We are only foolishly checking if we're posting blank messages
+        var fieldValue = field.value;
+        if (fieldValue.length === 0 ) {
+            isValid = false;
+        }
+    });
+    if (isValid) {
+        var title = $inputFields.get(0);
+        var body = $inputFields.get(1);
+        httpService.post(title.value, body.value)
+                         .then(function(data) {
+                             // success function
+                            console.log(data);
+                         }, function(stuff){
+                            // hack since we have a cross origin, error
+                            posts.push = new forumPost(title.value, body.value);
+                         });
+        // reset form.
+        title.value = "";
+        body.value = "";
+    }
+}
+
+$jQ(function () {
+    /*
+     * @description bind to submit button on page load.
+     */
+    $jQ('#new-post').on({
+        'submit': function(e) {
+            e.preventDefault();
+            formHandler();
+        },
+
+    });
+});
 
 (function () {
     /*
