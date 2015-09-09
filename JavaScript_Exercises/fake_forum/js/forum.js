@@ -9,57 +9,50 @@ var $jQ = jQuery.noConflict();
 var posts = []; // all our posts.
 
 
-
+// Objects
 var httpService = {
     /*
-     * @description return a HTTP request as a promise
+     * @description HTTP request handler
+     * @return HTTP request as promise
      */
-        "get": function () {
-            return $jQ.ajax({
-                type: "GET",
-                dataType: "jsonp",
-                url: "https://spreadsheets.google.com/feeds/list/1ntmcFZk4R0Owmez5eKc0bcu_PftAKwWyXDWTqmypPgI/default/public/values?alt=json-in-script",
-            });
-        },
-        "post": function (title, body) {
-             var _data = {
-                entry_434124687: title,
-                entry_1823097801: body,
-             };
-             return $jQ.ajax({
-                type: "POST",
-                url: "https://docs.google.com/forms/d/1blH7mM6udvlyJ0SrPmbXoNPZg8XCqDQaxHTPrK0HQbA/formResponse",
-                dataType: 'json',
-                data: _data,
-             });
-            }
-        };
+    "get": function () {
+        return $jQ.ajax({
+            type: "GET",
+            dataType: "jsonp",
+            url: "https://spreadsheets.google.com/feeds/list/1ntmcFZk4R0Owmez5eKc0bcu_PftAKwWyXDWTqmypPgI/default/public/values?alt=json-in-script",
+        });
+    },
+    "post": function (title, body) {
+         var _data = {
+            entry_434124687: title,
+            entry_1823097801: body,
+         };
+         return $jQ.ajax({
+            type: "POST",
+            url: "https://docs.google.com/forms/d/1blH7mM6udvlyJ0SrPmbXoNPZg8XCqDQaxHTPrK0HQbA/formResponse",
+            dataType: 'json',
+            data: _data,
+         });
+        }
+    };
 
 function forumPost (postTitle, postBody) {
     /*
-     * @description object handles a single forum post.
+     * @description object for a single forum post.
      */
     this.postTitle = postTitle;
     this.postBody = postBody;
-    this.newPost = (function () {
-                     var thepost = ('<div class="post"><h2>' +
+    this.postHTML = (function () {
+                    /*
+                     * @description html for object.
+                     */
+                     return ('<div class="post"><h2>' +
                                         postTitle + '</h2><p>' +
                                         postBody + '</p></div>');
-                     $jQ('.post').last().after(thepost);
                     }());
 
 }
 
-function loadPosts(data) {
-    /*
-     * @param [array] posts to add.
-     * @description creates new forumPost object given an array of posts.
-     */
-    data.forEach(function(entry){
-        posts.push(new forumPost(entry.gsx$posttitle.$t, entry.gsx$postbody.$t));
-
-    });
-}
 
 function formHandler() {
     /*
@@ -79,18 +72,35 @@ function formHandler() {
         var body = $inputFields.get(1);
         httpService.post(title.value, body.value)
                          .then(function(data) {
-                             // success function
+                            // success function
                             console.log(data);
-                         }, function(stuff){
-                            // hack since we have a cross origin, error
-                            posts.push = new forumPost(title.value, body.value);
+                         }, function(data){
+                            // error function
+                            // hack since we have a cross origin, error, now we add a new forum post
+                            var newPost = new forumPost(title.value, body.value);
+                            posts.push = newPost;
+                            renderPosts(newPost);
+                            // reset form.
+                            title.value = "";
+                            body.value = "";
                          });
-        // reset form.
-        title.value = "";
-        body.value = "";
     }
+    // TODO handle error messaging.
 }
 
+function renderPosts(postsToRender) {
+    /*
+     * @param postsToRender [array] objects to render.
+     * @description renders forum posts on html.
+     */
+    var $main = $jQ('main');
+    console.log(postsToRender);
+    $jQ(postsToRender).each(function(index, formPost) {
+            $main.append(formPost.postHTML);
+    });
+}
+
+// Event binding
 $jQ(function () {
     /*
      * @description bind to submit button on page load.
@@ -100,16 +110,20 @@ $jQ(function () {
             e.preventDefault();
             formHandler();
         },
-
     });
 });
 
+
+// On Load functions
 (function () {
     /*
      * @description load all posts on a page load.
      */
     httpService.get().then(function(data) {
-        loadPosts(data.feed.entry);
+        data.feed.entry.forEach(function(entry){
+            posts.push(new forumPost(entry.gsx$posttitle.$t, entry.gsx$postbody.$t));
+        });
+        renderPosts(posts);
     });
 
 }());
