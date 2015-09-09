@@ -26,12 +26,8 @@ class File:
         opens file into a string
         returns string from instance file.
         """
-        string_of_html = ''
+        string_of_html = ""
         with open(path.join(self.filepath, self.filename), "r", encoding="utf-8") as f:
             for row in f:
                 string_of_html += row
         return string_of_html
-
-
-
-
