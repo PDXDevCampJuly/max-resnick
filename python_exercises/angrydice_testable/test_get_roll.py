@@ -35,7 +35,7 @@ class GetRollTest(unittest.TestCase):
 
     @patch('builtins.input', side_effect=["sdf", "wii", "stuff", "", "a"])
     def test_invalid_condition(self, mock_input):
-        """when given a bad input we expect to be prompted for an input until we provide valid"""
+        """when given a bad input we expect to be prompted for an input until we provide isValid"""
         self.assertEqual(['a'], self.new_game.get_roll())
 
 

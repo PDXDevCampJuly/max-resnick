@@ -149,7 +149,7 @@ class Bank:
 
     def remove_customer_acount(self):
         """
-        use the account class method to remove, check for valid email in customers.dict.
+        use the account class method to remove, check for isValid email in customers.dict.
 
         """
         pass

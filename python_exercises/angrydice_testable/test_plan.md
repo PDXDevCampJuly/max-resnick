@@ -26,7 +26,6 @@ AngryDice functions:
 
 ## check_roll
 
-* Check if we've hit angry, the function returns nothing
 * check if we have met all stage exit conditions, move to next stage
 * check if we don't move to the next stage if we haven't met all stage conditions.
     
