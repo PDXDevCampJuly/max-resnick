@@ -22,8 +22,10 @@ main {
     background-color: #FDFDFD;
     margin-right: 10px;
     margin-left: 10px;
+    margin-bottom: 1em;
     padding: .5em .5em;
     border-style: solid;
+    border-color: #FDFDFD;
     border-radius: 5px;
 }
 main div {
@@ -33,7 +35,7 @@ main div {
     border-radius: 5px;
     border-color: #58595B;
     color: #FDFDFD;
-    box-shadow:  0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow:  0 3px 6px rgba(11,11,12,0.16), 0 3px 6px rgba(11,11,12,0.23);
 
 }
 
