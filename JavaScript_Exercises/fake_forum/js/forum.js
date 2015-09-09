@@ -84,6 +84,8 @@ function formHandler() {
                             title.value = "";
                             body.value = "";
                          });
+    } else {
+        $jQ('#new-post').append("<div class='error'>Please complete all the fields. </div>");
     }
     // TODO handle error messaging.
 }
