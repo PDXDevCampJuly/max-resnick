@@ -85,9 +85,13 @@ function formHandler() {
                             body.value = "";
                          });
     } else {
-        $jQ('#new-post').append("<div class='error'>Please complete all the fields. </div>");
+        // if we don't have an element with an error class, add it.
+        if(!$jQ('.error').length) {
+            $jQ('#new-post')
+                .append("<div class='error'>Please complete all the fields. </div>")
+                .fadeIn('fast');
+        }
     }
-    // TODO handle error messaging.
 }
 
 function renderPosts(postsToRender) {
