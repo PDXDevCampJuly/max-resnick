@@ -2,12 +2,12 @@
  * Created by Maxwell J. Resnick on 9/2/15.
  */
 var imageArray = new javapicImages(false).allImages;
-var $modal = $jQ('#image_show');
 
 function displayModal($target) {
     /*
      * @description displays modal of clicked image.
      */
+    var $modal = $jQ('#image_show');
     $modal.children().replaceWith($target.clone());
     // Meglo chain
     $modal
@@ -33,7 +33,7 @@ function displayModal($target) {
     var $section = $jQ('#gallery');
     for (var i=0; i<imageArray.length; i++) {
         this.newImage = '<li><img src="' + imageArray[i] + '" /></li>';
-        $section.append(this.newImage);
+        $section.prepend(this.newImage);
 
     }
 }());
