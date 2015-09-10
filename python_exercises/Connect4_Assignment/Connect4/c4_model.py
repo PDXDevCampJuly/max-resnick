@@ -56,7 +56,7 @@ class C4Model:
         :param col_num: column number as int
         :return: list of pieces
         """
-        if len(self.board) < col_num:
+        if (len(self.board) < col_num) or (col_num == 0):
             return []
         return self.board[col_num-1]
 
