@@ -11,10 +11,10 @@ def join_javapic(request):
     """
     JavaPic form
     """
-    return render(request, 'join.html')
+    return render(request, 'jq_join.html')
 
 def gallery_javapic(request):
     """
     Javapic gallery
     """
-    return render(request, 'gallery.html')
+    return render(request, 'jq_gallery.html')
