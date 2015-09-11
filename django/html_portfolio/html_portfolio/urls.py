@@ -6,5 +6,5 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^javapic/', include('javapic.urls')),
-    url(r'^javapic_jquery', include('javapic_jquery.urls'))
+    url(r'^javapic_jquery/', include('javapic_jquery.urls')),
 ]
