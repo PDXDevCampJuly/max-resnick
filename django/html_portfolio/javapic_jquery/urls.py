@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from javapic_jquery import views
+from . import views
 
 urlpatterns = [
     url(r'^$', views.javapic, name='javapichome'),
