@@ -1,3 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def javapic(request):
+    """
+    JavaPic homepages.
+    """
+    return render(request, 'javapic.html')
