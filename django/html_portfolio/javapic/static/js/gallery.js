@@ -33,7 +33,7 @@ var imageArray = (function () {
     this.images = [];
     for (var i = 0; i < 60; i++) {
         this.num = i+1;
-        this.filePrefix = "images/pdxcg_";
+        this.filePrefix = "/static/images/pdxcg_";
         this.filePostfix = ".jpg";
         // we add a "0" but also just cast everything to string
         if (this.num < 10) {
