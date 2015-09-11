@@ -1,10 +1,10 @@
-from django.conf.urls import url
-from javapic import views
+from django.conf.urls import include, url
 
 urlpatterns = [
     # Examples:
     # url(r'^$', 'html_portfolio.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^javapic/$', views.javapic, name='javapichome'),
+    url(r'^javapic/', include('javapic.urls')),
+    url(r'^javapic_jquery', include('javapic_jquery.urls'))
 ]
