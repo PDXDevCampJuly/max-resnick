@@ -39,6 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'javapic',
     'javapic_jquery',
+    'zen_mockup',
+    'forum',
+    'page',
 )
 
 MIDDLEWARE_CLASSES = (

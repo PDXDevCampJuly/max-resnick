@@ -7,4 +7,8 @@ urlpatterns = [
 
     url(r'^javapic/', include('javapic.urls')),
     url(r'^javapic_jquery/', include('javapic_jquery.urls')),
+    url(r'^zen_mockup/', include('zen_mockup.urls')),
+    url(r'^forum/', include('forum.urls')),
+    # catch all
+    url(r'^', include('page.urls'))
 ]
