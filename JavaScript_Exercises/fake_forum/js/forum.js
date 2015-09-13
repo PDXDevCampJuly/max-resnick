@@ -6,10 +6,13 @@
 
 // Load no conflict version
 var $jQ = jQuery.noConflict();
-var posts = []; // all our posts.
 
 
 // Objects
+
+var posts = []; // all our posts.
+
+
 var httpService = {
     /*
      * @description HTTP request handler
@@ -38,7 +41,7 @@ var httpService = {
 
 function forumPost (postTitle, postBody) {
     /*
-     * @description object for a single forum post.
+     * @description object representing a single forum post.
      */
     this.postTitle = postTitle;
     this.postBody = postBody;
@@ -53,11 +56,12 @@ function forumPost (postTitle, postBody) {
 
 }
 
-
+//  Controllers
 function formHandler() {
     /*
      * @description determine if new post is valid, if so post to google docs.
      */
+    var $errorMessage = $jQ('.error');
     var isValid = true;
     var $inputFields = $jQ('#post-body, #post-title');
     $inputFields.each(function(index, field) {
@@ -68,39 +72,39 @@ function formHandler() {
         }
     });
     if (isValid) {
+        if($errorMessage.length) $errorMessage.remove();
         var title = $inputFields.get(0);
         var body = $inputFields.get(1);
         httpService.post(title.value, body.value)
-                         .then(function(data) {
-                            // success function
-                            console.log(data);
-                         }, function(data){
-                            // error function
-                            // hack since we have a cross origin, error, now we add a new forum post
-                            var newPost = new forumPost(title.value, body.value);
-                            posts.push = newPost;
-                            renderPosts(newPost);
-                            // reset form.
-                            title.value = "";
-                            body.value = "";
-                         });
+                         .then( // we call the same function due to
+                                // a CORS issue w/ posting to google docs.
+                                // the promise ends up calling the errorFn despite a successful post.
+                             forumPostSuccess, forumPostSuccess);
     } else {
         // if we don't have an element with an error class, add it.
-        if(!$jQ('.error').length) {
+        if(!$errorMessage.length) {
             $jQ('#new-post')
                 .append("<div class='error'>Please complete all the fields. </div>")
                 .fadeIn('fast');
         }
     }
-}
 
+    function forumPostSuccess(data) {
+        var newPost = new forumPost(title.value, body.value);
+        posts.push = newPost;
+        renderPosts(newPost);
+        // reset form.
+        title.value = "";
+        body.value = "";
+        $jQ('.success').show().fadeOut(5000); // thanks jQuery, only pass an int
+    }
+}
 function renderPosts(postsToRender) {
     /*
      * @param postsToRender [array] objects to render.
      * @description renders forum posts on html.
      */
     var $main = $jQ('main');
-    console.log(postsToRender);
     $jQ(postsToRender).each(function(index, formPost) {
             $main.append(formPost.postHTML);
     });

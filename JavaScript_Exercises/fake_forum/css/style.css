@@ -45,7 +45,7 @@ main div {
 }
 
 
-main ~ section {
+section {
     float: right;
     width: 30%;
     background-color: #84783C;
@@ -56,13 +56,13 @@ main ~ section {
     box-shadow: 0 3px 6px rgba(91, 82, 33,0.16), 0 3px 6px rgba(91,82,33,0.23);
 }
 
-main ~ section * {
+form * {
     display: block;
     width: 80%;
     margin: 0 auto 10px;
 }
 
-section label {
+label {
     font-size: 1.25em;
     font-weight: 700;
 }
@@ -83,4 +83,12 @@ section label {
     border-radius: 5px;
     border-style: solid;
     border-color: tomato;
+}
+.success {
+    padding: .5em;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #C1BDA3;
+    background-color: #C1BDA3;
+    display: none;
 }
