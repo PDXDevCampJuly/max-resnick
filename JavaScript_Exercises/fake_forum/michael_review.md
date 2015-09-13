@@ -1,5 +1,6 @@
 From Michael 
 ============
+```
 
 Max’s Code Review for Fake Forum
 —————————————————————————————————
@@ -45,7 +46,7 @@ L8 — <insightful> Interesting how ‘.noConflict()’ works
 L62 — <insightful> Nice use of the jQuery multiple selector
 L91 — error div message remains after it is triggered to include being followed by a successful post. Nice use of effects.
 <idea> Success message
-
+```
 Max Response
 ============
 
