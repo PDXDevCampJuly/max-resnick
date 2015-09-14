@@ -74,4 +74,15 @@ JS
 * To add a success messaged I decided to refactor the then() of L79. I factored it out to a single forumPostSucess, which is called on success and error in this case because of the CORS issue.
 * Success Message was added on L99
 
+Michael Response 2
+==================
 
+```
+Hey Max, changes look good. A couple notes: I tested the forum again and noticed the error message still remains after a successful post. I tested it again with the python server you sent just to see if that was the case and it still remains. In addition, the <!DOCTYPE html5> does not need the “5”. We can talk more tomorrow and see it running on your computer. Thanks for taking the changes into consideration. Enjoy the rest of your Sunday.
+```
+
+Max Response 2
+==============
+
+* Removed html5 from doctype
+* Reviewed working feature.
