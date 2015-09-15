@@ -64,22 +64,23 @@ function formHandler() {
     var $errorMessage = $jQ('.error');
     var isValid = true;
     var $inputFields = $jQ('#post-body, #post-title');
+    var title, body;
     $inputFields.each(function(index, field) {
         // We are only foolishly checking if we're posting blank messages
-        var fieldValue = field.value;
-        if (fieldValue.length === 0 ) {
+        var fieldValue = $jQ.parseHTML(field.value);
+        if (fieldValue.length === 0 || fieldValue.length !== 1 ){
             isValid = false;
         }
+        field.id === 'post-title' ? title = fieldValue[0].textContent : body = fieldValue[0].textContent;
     });
     if (isValid) {
         if($errorMessage.length) $errorMessage.remove();
-        var title = $inputFields.get(0);
-        var body = $inputFields.get(1);
-        httpService.post(title.value, body.value)
+        // we use parseHTML to return a list of nodes
+        httpService.post(title, body)
                          .then( // we call the same function due to
                                 // a CORS issue w/ posting to google docs.
                                 // the promise ends up calling the errorFn despite a successful post.
-                             forumPostSuccess, forumPostSuccess);
+                                forumPostSuccess, forumPostSuccess);
     } else {
         // if we don't have an element with an error class, add it.
         if(!$errorMessage.length) {
@@ -90,12 +91,13 @@ function formHandler() {
     }
 
     function forumPostSuccess(data) {
-        var newPost = new forumPost(title.value, body.value);
+        var newPost = new forumPost(title, body);
         posts.push = newPost;
         renderPosts(newPost);
         // reset form.
-        title.value = "";
-        body.value = "";
+        $inputFields.each(function(index, field) {
+            field.value = "";
+        });
         $jQ('.success').show().fadeOut(5000); // thanks jQuery, only pass an int
     }
 }
