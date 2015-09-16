@@ -6,7 +6,7 @@
 var $jQ = jQuery.noConflict();
 
 function javapicImages (cssBackground) {
-       /*
+       /**
         * javapicImages
         * @description urls for random bg images and galleries.
         * @returns radomImage [array] 6 image file paths
@@ -46,7 +46,7 @@ function javapicImages (cssBackground) {
                 }
                 var fullPath = filePrefix + num + filePostfix;
                 images.push(fullPath);
-                }
+            }
                 return images;
         }());
 }
