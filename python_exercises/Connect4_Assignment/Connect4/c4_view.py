@@ -65,7 +65,7 @@ class C4View:
         prompts user for name
         :return: str name entered by user
         """
-        return input("\nYo yo player {}, what's your name?".format(player_num))
+        return input("\nYo yo player {}, what's your name? ".format(player_num))
 
 if __name__ == '__main__':
     new = C4View()

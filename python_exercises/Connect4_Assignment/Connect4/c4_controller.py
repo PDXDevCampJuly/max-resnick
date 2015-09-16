@@ -11,7 +11,6 @@ class C4Controller:
     def __init__(self):
         self.model = C4Model()
         self.view = C4View()
-        # self.player_turn = self.model.get_player()
 
     def update_board(self, col_num):
         """
