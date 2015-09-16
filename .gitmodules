@@ -1,6 +1,3 @@
 [submodule "JavaScript_Exercises/javapic_jquery/js/libs/jquery"]
 	path = JavaScript_Exercises/javapic_jquery/js/libs/jquery
 	url = git://github.com/jquery/jquery.git
-[submodule "nodejs_intro"]
-	path = nodejs_intro
-	url = git@github.com:Folashade/we-code-node-starter.git
